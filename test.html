@@ -1,0 +1,119 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+
+	<meta http-equiv="X-UA-Compatible" content="IE=Edge;chrome=1" />
+	<meta charset="utf-8" />
+
+	<title>Placeholder Labels</title>
+
+	<style>
+	body {
+		font-size:0.75em;
+		font-family:Arial, sans-serif;
+		color:#333;
+		background:#fff;
+	}
+
+	h1 {
+		font-size:2.083em;
+	}
+
+	p {
+		margin-bottom:1.5em;
+		line-height:1.5;
+	}
+
+	label {
+		display:block;
+		line-height:1.5;
+		white-space:nowrap;
+	}
+
+	input, textarea {
+		width:240px;
+		height:1.2em;
+		padding:5px;
+		font:inherit;
+		color:#0a5;
+	}
+		::-webkit-input-placeholder {
+			color:#f00;
+		}
+		input:-moz-placeholder, textarea:-moz-placeholder {
+			color:#f00;
+		}
+		input.placeholder, textarea.placeholder {
+			color:#f00;
+		}
+		input:focus, textarea:focus {
+			color:#000;
+		}
+		textarea {
+			height:6em;
+			resize:none;
+		}
+
+	button {
+		padding:5px 6px;
+	}
+
+	.row {
+		margin-bottom:0.5em;
+	}
+
+	#content {
+		width:640px;
+		margin:20px auto;
+	}
+	</style>
+
+</head>
+<body>
+
+	<div id="content">
+
+		<h1>Placeholder Labels</h1>
+
+		<p>This small Javascript method turns labels with the class 'inline' into placeholder attributes for their assigned input 
+		with Javascript fall back for browsers that do not support HTML5 recommended attributes. Requires Modernizr's 'Input Attributes' test.</p>
+
+		<p>The file also includes a small getTagsByClassName function that allows for more accurate DOM node selection based on tag names or 
+		parent ID.</p>
+		
+		<p>Tested in Firefox 3.6, Firefox 4*, Safari 5*, Chrome 8*, Internet Explorer 7 and Internet Explorer 8.</p>
+		
+		<p><small>* placeholder attribute supported</small></p>
+
+		<form action="" method="post">
+		<fieldset>
+
+			<div class="row">
+				<label for="normal-input">This is a normal label</label>
+				<input id="normal-input" name="normal-input" type="text" />
+			</div>
+
+			<div class="row">
+				<label class="inline" for="inline-input">This is a sexy placeholder label</label>
+				<input id="inline-input" name="inline-input" type="text" />
+			</div>
+
+			<div class="row">
+				<label class="inline" for="inline-textarea">This is a sexy placeholder label in a text area</label>
+				<textarea id="inline-textarea" name="inline-textarea"></textarea>
+			</div>
+
+			<div class="row buttons">
+				<button name="submit" type="submit">Submit</button>
+			</div>
+
+		</fieldset>
+		</form>
+
+	</div>
+
+	<script src="modernizr.js"></script>
+	<script src="placeholder-labels.js"></script>
+
+</body>
+</html>
