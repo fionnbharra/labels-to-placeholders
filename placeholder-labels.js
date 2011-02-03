@@ -2,7 +2,7 @@
  * Created by:  Matt Hinchliffe <http://www.maketea.co.uk>
  * Date:        02/02/2011
  * Modified:    03/02/2011
- * Version:     0.2.1
+ * Version:     0.2.2
  */
 
 window.InlineLabel = (function(Class, Target) {
@@ -13,7 +13,7 @@ window.InlineLabel = (function(Class, Target) {
 	{
 		var node = Target.createElement('input');
 		return !! ('placeholder' in node);
-	};
+	}
 
 
 	// Get labels with specified class
@@ -45,7 +45,7 @@ window.InlineLabel = (function(Class, Target) {
 		}
 
 		return Results;
-	};
+	}
 
 	// Gather label nodes
 	var Labels = get(Class, 'label', Target);
@@ -75,7 +75,7 @@ window.InlineLabel = (function(Class, Target) {
 					if (this.value == this.getAttribute('placeholder'))
 					{
 						this.value = '';
-						this.className = this.className.replace(' placeholder')
+						this.className = this.className.replace(' placeholder', '');
 					}
 				}
 

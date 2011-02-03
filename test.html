@@ -15,12 +15,19 @@
 		background:#fff;
 	}
 
-	h1 {
-		font-size:2.083em;
+	h1, h2, h3, h4, h5 {
+		line-height:1;
 	}
+		h1 {
+			font-size:2.33em;
+		}
+		h2, h3, h4, h5 {
+			font-size:1.5em;
+			margin-bottom:0.5em;
+		}
 
-	p {
-		margin-bottom:1.5em;
+	p, ul {
+		margin-bottom:1em;
 		line-height:1.5;
 	}
 
@@ -75,19 +82,29 @@
 
 		<h1>Placeholder Labels</h1>
 
-		<p>This small Javascript method (1.45kb minified) turns labels with the class 'inline' into placeholder attributes for their 
-		assigned input with Javascript fall back for browsers that do not support HTML5 recommended attributes.</p>
+		<p>This small Javascript method (1.45kb minified) turns labels with the class 'inline' into placeholder attributes for their
+		assigned input with fallback for browsers that do not support HTML5 recommended attributes.</p>
 
-		<p>The method will search for labels with an assigned class name (default: 'inline'), check for native behaviour and 
-		improvise the old fashioned way if that is unavailable.</p>
+		<p>Tested in Firefox 3.6, Firefox 4*, Safari 5*, Chrome 8*, Internet Explorer 7, 8 and 9*. <small>(* placeholder attribute
+		supported)</small></p>
 
-		<p>In the case that there is no native support the function will also add a 'placeholder' class so that you are able to distinguish 
-		between a placeholder or a real value being present.</p>
+		<h2>How does it work</h2>
+
+		<p>The method will first search for labels with the class name 'inline', check for native placeholder behaviour and improvise the
+		old fashioned way if that is unavailable.</p>
+
+		<p>In the case that there is no native support the function will also add a 'placeholder' class to the input so that you are able
+		to distinguish between a placeholder or real value being present.</p>
 
 		<p>The method does not add any listeners to the form.</p>
 
-		<p>Tested in Firefox 3.6, Firefox 4*, Safari 5*, Chrome 8*, Internet Explorer 7, 8 and 9*. <small>(* placeholder attribute 
-		supported)</small></p>
+		<h3>Installation</h3>
+
+		<p>Simply include the Javascript file (minified version recommended for production use) within your page. The method will attach
+		itself to the window object and will be executed automatically. By default the method will search the entire document for labels
+		with the attribute 'inline' but this can easily be changed.</p>
+
+		<h4>Example</h4>
 
 		<form action="" method="post">
 		<fieldset>
@@ -113,6 +130,13 @@
 
 		</fieldset>
 		</form>
+
+		<h5>Credits</h5>
+
+		<ul>
+			<li><a href="http://www.modernizr.com">Modernizr for attribute test</a></li>
+			<li><a href="http://miketaylr.com/code/input-type-attr.html">Mike Taylr for the HTML 5 input and attribute compatibility tables</a></li>
+		</ul>
 
 	</div>
 
