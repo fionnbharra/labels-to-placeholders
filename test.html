@@ -31,6 +31,14 @@
 		line-height:1.5;
 	}
 
+	code {
+		padding:0.5em 10px;
+		font-size:1em;
+		font-family:Consolas, "Lucida Console", Monaco, monospace;
+		color:#80f;
+		background:#eee;
+	}
+
 	label {
 		display:block;
 		line-height:1.5;
@@ -85,8 +93,17 @@
 		<p>This small Javascript method (1.45kb minified) turns labels with the class 'inline' into placeholder attributes for their
 		assigned input with fallback for browsers that do not support HTML5 recommended attributes.</p>
 
-		<p>Tested in Firefox 3.6, Firefox 4*, Safari 5*, Chrome 8*, Internet Explorer 7, 8 and 9*. <small>(* placeholder attribute
-		supported)</small></p>
+		<p>Tested in the following browsers:</p>
+
+		<ul>
+			<li>Firefox 3.6</li>
+			<li>Firefox 4*</li>
+			<li>Safari 5*</li>
+			<li>Chrome 8*</li>
+			<li>Internet Explorer 7, 8 and 9*</li>
+		</ul>
+
+		<p>* placeholder attribute supported</p>
 
 		<h2>How does it work</h2>
 
@@ -100,9 +117,12 @@
 
 		<h3>Installation</h3>
 
-		<p>Simply include the Javascript file (minified version recommended for production use) within your page. The method will attach
-		itself to the window object and will be executed automatically. By default the method will search the entire document for labels
-		with the attribute 'inline' but this can easily be changed.</p>
+		<p>Simply include the Javascript file (minified version recommended for production use) within your page and instantiate a new copy
+		of InlineLabels:</p>
+
+		<p><code>var labels = new InlineLabel('inline', this.document);</code></p>
+
+		<p>The first argument is the class name you have applied to your labels, the second argument can be an object or an ID string.</p>
 
 		<h4>Example</h4>
 
@@ -140,7 +160,10 @@
 
 	</div>
 
-	<script src="placeholder-labels.js"></script>
+	<script src="placeholder-labels.min.js"></script>
+	<script>
+	var labels = new InlineLabel('inline', this.document);
+	</script>
 
 </body>
 </html>

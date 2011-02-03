@@ -1,24 +1,23 @@
-/*
+﻿/*
  * Created by:  Matt Hinchliffe <http://www.maketea.co.uk>
  * Date:        02/02/2011
  * Modified:    03/02/2011
- * Version:     0.2.2
+ * Version:     0.2.3
  */
 
-window.InlineLabel = (function(Class, Target) {
+function InlineLabel(Class, Target) {
 
 	// Test if placeholder attribute is natively supported
 	// - Test taken from work by Mike Taylr <http://miketaylr.com/code/input-type-attr.html> and Modernizr <http://www.modernizr.com>
-	function test()
+	this.test = function()
 	{
 		var node = Target.createElement('input');
 		return !! ('placeholder' in node);
 	}
 
-
 	// Get labels with specified class
 	// - Avoids using getElementsByClassName and searches for single node type with class within a container.
-	function get(Class, Tag, Container)
+	this.get = function(Class, Tag, Container)
 	{
 		if (!Class || !Tag)
 			return false;
@@ -48,24 +47,24 @@ window.InlineLabel = (function(Class, Target) {
 	}
 
 	// Gather label nodes
-	var Labels = get(Class, 'label', Target);
+	this.Labels = this.get(Class, 'label', Target);
 
 	// Loop through nodes
-	for (var i = 0; i < Labels.length; i++)
+	for (var i = 0; i < this.Labels.length; i++)
 	{
 		// Get label text and for attribute value
-		var Placeholder = Labels[i].firstChild.nodeValue,
-		    Input = document.getElementById( Labels[i].getAttribute('for') || Labels[i].getAttribute('htmlFor') );
+		var Placeholder = this.Labels[i].firstChild.nodeValue,
+		    Input = document.getElementById( this.Labels[i].getAttribute('for') || this.Labels[i].getAttribute('htmlFor') );
 
 		// Test for attribute is bound to a text input or text area
 		if (Input && (Input.nodeName.toLowerCase() == 'textarea' || Input.type == 'text'))
 		{
 			// Hide label and set text to target placeholder attribute
-			Labels[i].style.display = 'none';
+			this.Labels[i].style.display = 'none';
 			Input.setAttribute('placeholder', Placeholder);
 
 			// If native placeholder support is not available available then do it the old fashioned way
-			if (!test())
+			if (!this.test())
 			{
 				Input.value = Placeholder;
 				Input.className = Input.className + ' placeholder';
@@ -92,4 +91,4 @@ window.InlineLabel = (function(Class, Target) {
 		}
 	}
 
-})('inline', this.document);
+}
