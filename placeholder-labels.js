@@ -1,71 +1,74 @@
 /*
  * Created by:  Matt Hinchliffe <http://www.maketea.co.uk>
  * Date:        02/02/2011
- * Modified:    02/02/2011
- * Version:     0.1
+ * Modified:    03/02/2011
+ * Version:     0.2.0
  */
 
-/**
- * getElementsByClassName
- *
- * A simple getElementsByClassName extension that can filter results by tag name
- *
- * @param string Class      Class name to find
- * @param string Tag        Node type to filter by
- * @param string Container  ID of parent node
- * @return bool|object
- */
-function getElementsByClassName (Class, Tag, Container)
-{
-	if (!Class || !Tag)
-		return false;
+window.InlineLabel = (function(Class, Target) {
 
-	var Scope = Container ? document.getElementById(Container) : document;
-
-	if (!Scope)
-		return false;
-
-	var Elements = Scope.getElementsByTagName(Tag), Results = [];
-
-	if (!Elements)
-		return false;
-
-	for (var i = 0; i < Elements.length; i++)
+	// Test if placeholder attribute is natively supported
+	// - Test taken from work by Mike Taylr <http://miketaylr.com/code/input-type-attr.html> and Modernizr <http://www.modernizr.com>
+	function test()
 	{
-		var String = Elements[i].getAttribute('class') || Elements[i].getAttribute('className');
+		var input = Target.createElement('input'),
+		    support = !! ('placeholder' in input);
 
-		if (String)
+		input = null;
+
+		return support;
+	};
+
+
+	// Get labels with specified class
+	// - Avoids using getElementsByClassName and searches for single node type with class within a container.
+	function get(Class, Tag, Container)
+	{
+		if (!Class || !Tag)
+			return false;
+
+		var Scope = typeof Container == 'string' ? document.getElementById(Container) : document;
+
+		if (!Scope)
+			return false;
+
+		var Elements = Scope.getElementsByTagName(Tag), Results = [];
+
+		if (!Elements)
+			return false;
+
+		for (var i = 0; i < Elements.length; i++)
 		{
-			if (String.indexOf(Class) > -1)
-				Results.push(Elements[i]);
+			var String = Elements[i].getAttribute('class') || Elements[i].getAttribute('className');
+
+			if (String)
+			{
+				if (String.indexOf(Class) > -1)
+					Results.push(Elements[i]);
+			}
 		}
-	}
 
-	return Results;
-}
+		return Results;
+	};
 
-/**
- * Placeholder Labels
- *
- * Display labels within their assigned input. Requires Modernizr's 'Input Attributes' test.
- *
- * @return void
- */
-function placeholder_labels()
-{
-	var Labels = getElementsByClassName('inline', 'label');
+	// Gather label nodes
+	var Labels = get(Class, 'label', Target);
 
+	// Loop through nodes
 	for (var i = 0; i < Labels.length; i++)
 	{
+		// Get label text and for attribute value
 		var $_placeholder = Labels[i].firstChild.nodeValue,
 			$_target = document.getElementById( Labels[i].getAttribute('for') || Labels[i].getAttribute('htmlFor') );
 
 		if ($_target)
 		{
+			// Hide label and set text to target placeholder attribute
 			Labels[i].style.display = 'none';
 			$_target.setAttribute('placeholder', $_placeholder);
 
-			if (!Modernizr.input.placeholder)
+			// If native placeholder support is not available available then do it the old fashioned way
+			if (!test())
 			{
 				$_target.value = $_placeholder;
 				$_target.className = $_target.className + ' placeholder';
@@ -84,15 +87,12 @@ function placeholder_labels()
 					if (!this.value || this.value == '')
 					{
 						this.value = this.getAttribute('placeholder');
-						this.className = this.className + ' placeholder';
+						if (this.className.indexOf('placeholder' == -1))
+							this.className = this.className + ' placeholder';
 					}
 				}
 			}
 		}
 	}
-}
 
-// Attach method to body onload
-window.onload = function () {
-	placeholder_labels();
-}
+})('inline', this.document);

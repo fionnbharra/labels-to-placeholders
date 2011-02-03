@@ -75,31 +75,36 @@
 
 		<h1>Placeholder Labels</h1>
 
-		<p>This small Javascript method turns labels with the class 'inline' into placeholder attributes for their assigned input 
-		with Javascript fall back for browsers that do not support HTML5 recommended attributes. Requires Modernizr's 'Input Attributes' test.</p>
+		<p>This small Javascript method turns labels with the class 'inline' into placeholder attributes for their assigned input with 
+		Javascript fall back for browsers that do not support HTML5 recommended attributes.</p>
 
-		<p>The file also includes a small getTagsByClassName function that allows for more accurate DOM node selection based on tag names or 
-		parent ID.</p>
-		
-		<p>Tested in Firefox 3.6, Firefox 4*, Safari 5*, Chrome 8*, Internet Explorer 7 and Internet Explorer 8.</p>
-		
+		<p>The small function will search for labels with an assigned class name (default: 'inline'), check for native behaviour and 
+		improvise the old fashioned way if that is unavailable.</p>
+
+		<p>In the case that there is no native support the function will also add a 'placeholder' class so that you are able to distinguish 
+		between a placeholder or a real value being present.</p>
+
+		<p>The function does not add any listeners to the form.</p>
+
+		<p>Tested in Firefox 3.6, Firefox 4*, Safari 5*, Chrome 8*, Internet Explorer 7, 8 and 9*.</p>
+
 		<p><small>* placeholder attribute supported</small></p>
 
 		<form action="" method="post">
 		<fieldset>
 
 			<div class="row">
-				<label for="normal-input">This is a normal label</label>
+				<label for="normal-input">This is a normal label, sat above the input</label>
 				<input id="normal-input" name="normal-input" type="text" />
 			</div>
 
 			<div class="row">
-				<label class="inline" for="inline-input">This is a sexy placeholder label</label>
+				<label class="inline" for="inline-input">This is a placeholder label</label>
 				<input id="inline-input" name="inline-input" type="text" />
 			</div>
 
 			<div class="row">
-				<label class="inline" for="inline-textarea">This is a sexy placeholder label in a text area</label>
+				<label class="inline" for="inline-textarea">This is a placeholder within a text area</label>
 				<textarea id="inline-textarea" name="inline-textarea"></textarea>
 			</div>
 
@@ -112,7 +117,6 @@
 
 	</div>
 
-	<script src="modernizr.js"></script>
 	<script src="placeholder-labels.js"></script>
 
 </body>
