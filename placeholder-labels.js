@@ -1,53 +1,44 @@
 ﻿/*
  * Created by:  Matt Hinchliffe <http://www.maketea.co.uk>
  * Date:        02/02/2011
- * Modified:    03/02/2011
- * Version:     0.2.3
+ * Modified:    04/02/2011
+ * Version:     0.3.0
  */
 
-function InlineLabel(Class, Target) {
-
+function InlineLabel(Class, Target)
+{
 	// Test if placeholder attribute is natively supported
 	// - Test taken from work by Mike Taylr <http://miketaylr.com/code/input-type-attr.html> and Modernizr <http://www.modernizr.com>
 	this.test = function()
 	{
-		var node = Target.createElement('input');
-		return !! ('placeholder' in node);
+		var fake = Target.createElement('input');
+		return !! ('placeholder' in fake);
 	}
 
 	// Get labels with specified class
 	// - Avoids using getElementsByClassName and searches for single node type with class within a container.
 	this.get = function(Class, Tag, Container)
 	{
-		if (!Class || !Tag)
-			return false;
-
 		var Scope = typeof Container == 'string' ? document.getElementById(Container) : Container;
 
-		if (typeof Scope != 'object')
-			return false;
+		if (!Scope || typeof Scope != 'object')
+			return;
 
 		var Elements = Scope.getElementsByTagName(Tag), Results = [];
-
-		if (!Elements)
-			return false;
 
 		for (var i = 0; i < Elements.length; i++)
 		{
 			var String = Elements[i].getAttribute('class') || Elements[i].getAttribute('className');
 
-			if (String)
-			{
-				if (String.indexOf(Class) > -1)
+			if (String && String.indexOf(Class) > -1)
 					Results.push(Elements[i]);
-			}
 		}
 
 		return Results;
 	}
 
-	// Gather label nodes
-	this.Labels = this.get(Class, 'label', Target);
+	// Create publically accessible object
+	this.Labels = this.get(Class, 'label', Target) || [];
 
 	// Loop through nodes
 	for (var i = 0; i < this.Labels.length; i++)
@@ -63,7 +54,7 @@ function InlineLabel(Class, Target) {
 			this.Labels[i].style.display = 'none';
 			Input.setAttribute('placeholder', Placeholder);
 
-			// If native placeholder support is not available available then do it the old fashioned way
+			// Provide Javascript fallback for browsers that do not support the placeholder attribute
 			if (!this.test())
 			{
 				Input.value = Placeholder;
