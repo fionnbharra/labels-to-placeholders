@@ -1,5 +1,5 @@
 <!doctype html>
-<html class="no-js" lang="en">
+<html lang="en">
 <head>
 
 	<meta http-equiv="X-UA-Compatible" content="IE=Edge;chrome=1" />
@@ -26,19 +26,27 @@
 			margin-bottom:0.5em;
 		}
 
-	p, ul {
-		margin-bottom:1em;
+	p, ul, pre {
+		margin:0 0 1em;
 		line-height:1.5;
 	}
 
+	pre {
+		font-size:1.25em;
+		background:#eee;
+		cursor:help;
+	}
 	code {
-		padding:0.5em 10px;
-		font-size:1em;
 		font-family:Consolas, "Lucida Console", Monaco, monospace;
 		color:#80f;
-		background:#eee;
 	}
 
+	#content {
+		width:640px;
+		margin:20px auto;
+	}
+
+	/* Example styles */
 	label {
 		display:block;
 		line-height:1.5;
@@ -76,11 +84,6 @@
 	.row {
 		margin-bottom:0.5em;
 	}
-
-	#content {
-		width:640px;
-		margin:20px auto;
-	}
 	</style>
 
 </head>
@@ -99,7 +102,7 @@
 			<li>Firefox 3.6</li>
 			<li>Firefox 4*</li>
 			<li>Safari 5*</li>
-			<li>Chrome 8*</li>
+			<li>Chrome 8* and 9*</li>
 			<li>Internet Explorer 7, 8 and 9*</li>
 		</ul>
 
@@ -120,7 +123,7 @@
 		<p>Simply include the Javascript file (minified version recommended for production use) within your page and instantiate a new copy
 		of InlineLabels:</p>
 
-		<p><code>var labels = new InlineLabel('inline', this.document);</code></p>
+		<pre title="Javascript"><code>var labels = new InlineLabel('inline', this.document);</code></pre>
 
 		<p>The first argument is the class name you have applied to your labels, the second argument can be an object or an ID string.</p>
 

@@ -7,7 +7,7 @@ Tested in the following browsers:
 * Firefox 3.6
 * Firefox 4\*
 * Safari 5\*
-* Chrome 8\*
+* Chrome 8\* and 9 \*
 * Internet Explorer 7, 8 and 9\*
 
 \* placeholder attribute supported
