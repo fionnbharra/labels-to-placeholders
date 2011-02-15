@@ -31,14 +31,13 @@
 		line-height:1.5;
 	}
 
-	pre {
+	pre, code {
 		font-size:1.25em;
-		background:#eee;
-		cursor:help;
-	}
-	code {
 		font-family:Consolas, "Lucida Console", Monaco, monospace;
 		color:#80f;
+		background:#eee;
+		cursor:help;
+		overflow:hidden;
 	}
 
 	#content {
@@ -93,14 +92,13 @@
 
 		<h1>Placeholder Labels</h1>
 
-		<p>This small Javascript method (1.45kb minified) turns labels with the class 'inline' into placeholder attributes for their
-		assigned input with fallback for browsers that do not support HTML5 recommended attributes.</p>
+		<p>This small Javascript method turns labels with a specified class into placeholder attributes for their related input with
+		Javascript fallback for browsers that do not support HTML5 recommended attributes.</p>
 
 		<p>Tested in the following browsers:</p>
 
 		<ul>
-			<li>Firefox 3.6</li>
-			<li>Firefox 4*</li>
+			<li>Firefox 3.6 and 4*</li>
 			<li>Safari 5*</li>
 			<li>Chrome 8* and 9*</li>
 			<li>Internet Explorer 7, 8 and 9*</li>
@@ -120,12 +118,17 @@
 
 		<h3>Installation</h3>
 
-		<p>Simply include the Javascript file (minified version recommended for production use) within your page and instantiate a new copy
-		of InlineLabels:</p>
+		<p>Simply include the Javascript file (minified version recommended for production use) within your page and instantiate a new
+		instance of InlineLabels with two arguments:</p>
 
-		<pre title="Javascript"><code>var labels = new InlineLabel('inline', this.document);</code></pre>
+		<p><code>var labels = new InlineLabel('inline', document);</code></p>
 
-		<p>The first argument is the class name you have applied to your labels, the second argument can be an object or an ID string.</p>
+		<p>The two arguments are pretty self-explanatory:</p>
+
+		<ol>
+			<li>The class name string you have applied to your labels</li>
+			<li>An object or an ID string (optional)</li>
+		</ol>
 
 		<h4>Example</h4>
 

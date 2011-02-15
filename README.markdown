@@ -1,11 +1,10 @@
 # Placeholder Labels
 
-This small Javascript method (1.45kb minified) turns labels with the class 'inline' into placeholder attributes for their assigned input with fallback for browsers that do not support HTML5 recommended attributes.
+This small Javascript method turns labels with a specified class into placeholder attributes for their related input with Javascript fallback for browsers that do not support HTML5 recommended attributes.
 
 Tested in the following browsers:
 
-* Firefox 3.6
-* Firefox 4\*
+* Firefox 3.6 and 4\*
 * Safari 5\*
 * Chrome 8\* and 9 \*
 * Internet Explorer 7, 8 and 9\*
@@ -22,13 +21,16 @@ The method does not add any listeners to the form.
 
 ### Installation
 
-Simply include the Javascript file (minified version recommended for production use) within your page and instantiate a new copy of InlineLabels:
+Simply include the Javascript file (minified version recommended for production use) within your page and instantiate a new instance of InlineLabels with two arguments:
 
-_var labels = new InlineLabel('inline', this.document);_
+`var labels = new InlineLabel('inline', document);`
 
-The first argument is the class name you have applied to your labels, the second argument can be an object or an ID string.
+The two arguments are pretty self-explanatory:
 
-### Credits
+1. The class name string you have applied to your labels
+2. An object or an ID string (optional)
+
+#### Credits
 
 * [Modernizr for attribute test](http://www.modernizr.com)
 * [Mike Taylr for the HTML 5 input and attribute compatibility tables](http://miketaylr.com/code/input-type-attr.html)

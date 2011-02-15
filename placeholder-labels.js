@@ -1,21 +1,23 @@
-﻿/*
+/*
  * Created by:  Matt Hinchliffe <http://www.maketea.co.uk>
  * Date:        02/02/2011
- * Modified:    04/02/2011
- * Version:     0.3.0
+ * Modified:    15/02/2011
+ * Version:     0.5.1
  */
 
 function InlineLabel(Class, Target)
 {
+	Target = Target || document;
+
 	// Test if placeholder attribute is natively supported
 	// - Test taken from work by Mike Taylr <http://miketaylr.com/code/input-type-attr.html> and Modernizr <http://www.modernizr.com>
 	this.test = function()
 	{
-		var fake = Target.createElement('input');
+		var fake = document.createElement('input');
 		return !! ('placeholder' in fake);
-	}
+	};
 
-	// Get labels with specified class
+	// Get labels with specified class helper
 	// - Avoids using getElementsByClassName and searches for single node type with class within a container.
 	this.get = function(Class, Tag, Container)
 	{
@@ -35,7 +37,43 @@ function InlineLabel(Class, Target)
 		}
 
 		return Results;
-	}
+	};
+
+	// Apply event listener helper
+	this.bind_event = function(target, event, handler)
+	{
+		if (target.addEventListener)
+			target.addEventListener(event, handler, false);
+		else
+			target.attachEvent('on' + event, handler);
+	};
+
+	// Focus method is abstracted to avoid instantiation within a loop
+	this.apply_focus = function(target)
+	{
+		this.bind_event(target, 'focus', function()
+		{
+			if (target.value == target.getAttribute('placeholder'))
+			{
+				target.value = '';
+				target.className = target.className.replace(' placeholder', '');
+			}
+		});
+	};
+
+	// Focus method is abstracted to avoid instantiation within a loop
+	this.apply_blur = function(target)
+	{
+		this.bind_event(target, 'blur', function()
+		{
+			if (!target.value || target.value === '')
+			{
+				target.value = target.getAttribute('placeholder');
+				if (target.className.indexOf('placeholder' == -1))
+					target.className = target.className + ' placeholder';
+			}
+		});
+	};
 
 	// Create publically accessible object
 	this.Labels = this.get(Class, 'label', Target) || [];
@@ -60,24 +98,8 @@ function InlineLabel(Class, Target)
 				Input.value = Placeholder;
 				Input.className = Input.className + ' placeholder';
 
-				Input.onfocus = function()
-				{
-					if (this.value == this.getAttribute('placeholder'))
-					{
-						this.value = '';
-						this.className = this.className.replace(' placeholder', '');
-					}
-				}
-
-				Input.onblur = function()
-				{
-					if (!this.value || this.value == '')
-					{
-						this.value = this.getAttribute('placeholder');
-						if (this.className.indexOf('placeholder' == -1))
-							this.className = this.className + ' placeholder';
-					}
-				}
+				this.apply_focus(Input);
+				this.apply_blur(Input);
 			}
 		}
 	}
