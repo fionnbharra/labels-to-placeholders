@@ -1,8 +1,8 @@
 /*
  * Created by:  Matt Hinchliffe <http://www.maketea.co.uk>
  * Date:        02/02/2011
- * Modified:    15/02/2011
- * Version:     0.5.1
+ * Modified:    15/03/2011
+ * Version:     0.6.0
  */
 
 function InlineLabel(Class, Target)
@@ -24,7 +24,9 @@ function InlineLabel(Class, Target)
 		var Scope = typeof Container == 'string' ? document.getElementById(Container) : Container;
 
 		if (!Scope || typeof Scope != 'object')
+		{
 			return;
+		}
 
 		var Elements = Scope.getElementsByTagName(Tag), Results = [];
 
@@ -33,25 +35,34 @@ function InlineLabel(Class, Target)
 			var String = Elements[i].getAttribute('class') || Elements[i].getAttribute('className');
 
 			if (String && String.indexOf(Class) > -1)
-					Results.push(Elements[i]);
+			{
+				Results.push(Elements[i]);
+			}
 		}
 
 		return Results;
 	};
 
 	// Apply event listener helper
-	this.bind_event = function(target, event, handler)
+	this.bind = function(target, event, handler)
 	{
 		if (target.addEventListener)
+		{
 			target.addEventListener(event, handler, false);
+		}
 		else
+		{
 			target.attachEvent('on' + event, handler);
+		}
 	};
 
-	// Focus method is abstracted to avoid instantiation within a loop
-	this.apply_focus = function(target)
+	// Event method are abstracted to avoid instantiation within a loop
+	this.contrive = function(target)
 	{
-		this.bind_event(target, 'focus', function()
+		target.value = Placeholder;
+		target.className = Input.className + ' placeholder';
+
+		this.bind(target, 'focus', function()
 		{
 			if (target.value == target.getAttribute('placeholder'))
 			{
@@ -59,18 +70,16 @@ function InlineLabel(Class, Target)
 				target.className = target.className.replace(' placeholder', '');
 			}
 		});
-	};
 
-	// Focus method is abstracted to avoid instantiation within a loop
-	this.apply_blur = function(target)
-	{
-		this.bind_event(target, 'blur', function()
+		this.bind(target, 'blur', function()
 		{
 			if (!target.value || target.value === '')
 			{
 				target.value = target.getAttribute('placeholder');
 				if (target.className.indexOf('placeholder' == -1))
+				{
 					target.className = target.className + ' placeholder';
+				}
 			}
 		});
 	};
@@ -95,11 +104,7 @@ function InlineLabel(Class, Target)
 			// Provide Javascript fallback for browsers that do not support the placeholder attribute
 			if (!this.test())
 			{
-				Input.value = Placeholder;
-				Input.className = Input.className + ' placeholder';
-
-				this.apply_focus(Input);
-				this.apply_blur(Input);
+				this.contrive(Input);
 			}
 		}
 	}

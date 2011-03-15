@@ -26,19 +26,21 @@
 			margin-bottom:0.5em;
 		}
 
-	p, ul, pre {
+	p, ul, ol, pre {
 		margin:0 0 1em;
 		line-height:1.5;
 	}
 
 	pre, code {
-		font-size:1.25em;
+		font-size:1.071em;
 		font-family:Consolas, "Lucida Console", Monaco, monospace;
 		color:#80f;
-		background:#eee;
 		cursor:help;
-		overflow:hidden;
 	}
+		pre {
+			overflow:hidden;
+			background:#eee;
+		}
 
 	#content {
 		width:640px;
@@ -127,7 +129,7 @@
 
 		<ol>
 			<li>The class name string you have applied to your labels</li>
-			<li>An object or an ID string (optional)</li>
+			<li>An object or an ID string <em>(optional)</em></li>
 		</ol>
 
 		<h4>Example</h4>
