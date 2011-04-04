@@ -1,6 +1,6 @@
 # Placeholder Labels
 
-This small Javascript method turns labels with a specified class into placeholder attributes for their related input with Javascript fallback for browsers that do not support HTML5 recommended attributes.
+This small Javascript method turns labels with a specified class into placeholder attributes for their related input with Javascript fallback for browsers that do not support HTML5 recommended attributes with no dependencies.
 
 Tested in the following browsers:
 
@@ -13,7 +13,7 @@ Tested in the following browsers:
 
 ## How does it work
 
-The method will first search for associated labels, check for native placeholder behaviour and improvise the old fashioned way (Javascript events) if that is unavailable.
+The method will first search for associated labels, check for native placeholder behaviour (using [Modernizr](http://www.modernizr.com) if available) and improvise the old fashioned way via Javascript events if unavailable.
 
 In the case that there is no native support the function will also add a 'placeholder' class to the input so that you are able to distinguish between a placeholder or user entered value being present.
 
@@ -31,11 +31,16 @@ Include the Javascript file (minified version recommended for production use) wi
 The `InlineLabels` method can take two optional arguments:
 
 1. The class name you have applied to your labels (`string`)
-2. An object or an ID to only search for labels within a parent node (`string`|`object`)
+2. An object reference or an ID string to only search for labels within a parent node (`string`|`object`)
 
 To select all labels within a certain form you could do as follows:
 
-	var labels = new InlineLabls('', 'formID');
+	var labels = new InlineLabels('', 'formID');
+
+or
+
+	var my_form = document.getElementByID('my_form'),
+	    labels = new InlineLabels(null, my_form);
 
 Styling placeholders requires some rather horrible browser-specific 'shadow DOM' selectors which means some code repetition for now. The script also applies the class name 'placeholder' to each target element in browsers where native placeholder behaviour is not supported:
 
