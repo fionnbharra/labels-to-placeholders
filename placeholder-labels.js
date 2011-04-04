@@ -1,23 +1,31 @@
 /*
  * Created by:  Matt Hinchliffe <http://www.maketea.co.uk>
  * Date:        02/02/2011
- * Modified:    15/03/2011
- * Version:     0.6.0
+ * Modified:    04/04/2011
+ * Version:     1.0.0 beta
  */
 
-function InlineLabel(Class, Target)
+function InlineLabels(Class, Target)
 {
+	Class = Class === undefined ? 'inline' : Class;
 	Target = Target || document;
 
 	// Test if placeholder attribute is natively supported
 	// - Test taken from work by Mike Taylr <http://miketaylr.com/code/input-type-attr.html> and Modernizr <http://www.modernizr.com>
 	this.test = function()
 	{
-		var fake = document.createElement('input');
-		return !! ('placeholder' in fake);
+		if (window.Modernizr)
+		{
+			return Modernizr.input.placeholder;
+		}
+		else
+		{
+			var fake = document.createElement('input');
+			return !! ('placeholder' in fake);
+		}
 	};
 
-	// Get labels with specified class helper
+	// Get labels. Optionally filter by specified class or within container.
 	// - Avoids using getElementsByClassName and searches for single node type with class within a container.
 	this.get = function(Class, Tag, Container)
 	{
@@ -30,17 +38,22 @@ function InlineLabel(Class, Target)
 
 		var Elements = Scope.getElementsByTagName(Tag), Results = [];
 
-		for (var i = 0; i < Elements.length; i++)
+		if (Class)
 		{
-			var String = Elements[i].getAttribute('class') || Elements[i].getAttribute('className');
-
-			if (String && String.indexOf(Class) > -1)
+			for (var i = 0; i < Elements.length; i++)
 			{
-				Results.push(Elements[i]);
+				var String = Elements[i].getAttribute('class') || Elements[i].getAttribute('className');
+
+				if (String && String.indexOf(Class) > -1)
+				{
+					Results.push(Elements[i]);
+				}
 			}
+
+			return Results;
 		}
 
-		return Results;
+		return Elements;
 	};
 
 	// Apply event listener helper
@@ -86,6 +99,7 @@ function InlineLabel(Class, Target)
 
 	// Create publically accessible object
 	this.Labels = this.get(Class, 'label', Target) || [];
+	this.Native = this.test();
 
 	// Loop through nodes
 	for (var i = 0; i < this.Labels.length; i++)
@@ -102,7 +116,7 @@ function InlineLabel(Class, Target)
 			Input.setAttribute('placeholder', Placeholder);
 
 			// Provide Javascript fallback for browsers that do not support the placeholder attribute
-			if (!this.test())
+			if (!this.Native)
 			{
 				this.contrive(Input);
 			}

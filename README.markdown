@@ -13,22 +13,41 @@ Tested in the following browsers:
 
 ## How does it work
 
-The method will first search for labels with the class name 'inline', check for native placeholder behaviour and improvise the old fashioned way if that is unavailable.
+The method will first search for associated labels, check for native placeholder behaviour and improvise the old fashioned way (Javascript events) if that is unavailable.
 
-In the case that there is no native support the function will also add a 'placeholder' class to the input so that you are able to distinguish between a placeholder or real value being present.
-
-The method does not add any listeners to the form.
+In the case that there is no native support the function will also add a 'placeholder' class to the input so that you are able to distinguish between a placeholder or user entered value being present.
 
 ### Installation
 
-Simply include the Javascript file (minified version recommended for production use) within your page and instantiate a new instance of InlineLabels with two arguments:
+Text inputs and textareas require an associated label -- even if they're hidden -- so make sure your labels and inputs form a valid pair. By default the script will only select labels with the class 'inline':
 
-`var labels = new InlineLabel('inline', document);`
+	<label for="my_input" class="inline">Insert text</label>
+	<input type="text" id="my_input" name="myinput" />
+	
+Include the Javascript file (minified version recommended for production use) within your page and instantiate a new instance of InlineLabels:
 
-The two arguments are pretty self-explanatory:
+	var labels = new InlineLabels();
 
-1. The class name string you have applied to your labels
-2. An object or an ID string (optional)
+The `InlineLabels` method can take two optional arguments:
+
+1. The class name you have applied to your labels (`string`)
+2. An object or an ID to only search for labels within a parent node (`string`|`object`)
+
+To select all labels within a certain form you could do as follows:
+
+	var labels = new InlineLabls('', 'formID');
+
+Styling placeholders requires some rather horrible browser-specific 'shadow DOM' selectors which means some code repetition for now. The script also applies the class name 'placeholder' to each target element in browsers where native placeholder behaviour is not supported:
+
+	::-webkit-input-placeholder {
+		color:#f00;
+	}
+	input:-moz-placeholder, textarea:-moz-placeholder {
+		color:#f00;
+	}
+	input.placeholder, textarea.placeholder {
+		color:#f00;
+	}
 
 #### Credits
 
