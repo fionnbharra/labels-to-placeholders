@@ -1,8 +1,8 @@
 /*
  * Created by:  Matt Hinchliffe <http://www.maketea.co.uk>
  * Date:        02/02/2011
- * Modified:    04/04/2011
- * Version:     1.0.0 beta
+ * Modified:    08/04/2011
+ * Version:     1.0.0 beta 2
  */
 
 function InlineLabels(Class, Target)
@@ -14,7 +14,7 @@ function InlineLabels(Class, Target)
 	// - Test taken from work by Mike Taylr <http://miketaylr.com/code/input-type-attr.html> and Modernizr <http://www.modernizr.com>
 	this.test = function()
 	{
-		if (window.Modernizr)
+		if (window.Modernizr && window.Modernizr.input)
 		{
 			return Modernizr.input.placeholder;
 		}
@@ -97,7 +97,7 @@ function InlineLabels(Class, Target)
 		});
 	};
 
-	// Create publically accessible object
+	// Create publicly accessible object
 	this.Labels = this.get(Class, 'label', Target) || [];
 	this.Native = this.test();
 
