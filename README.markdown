@@ -19,11 +19,11 @@ In the case that there is no native support the function will also add a 'placeh
 
 ### Installation
 
-Text inputs and textareas require an associated label -- even if they're hidden -- so make sure your labels and inputs form a valid pair. By default the script will only select labels with the class 'inline':
+Text inputs and textareas require an associated label -- even if the label is hidden -- so make sure your labels and inputs form a valid pair. By default the script will only select labels with the class 'inline':
 
 	<label for="my_input" class="inline">Insert text</label>
 	<input type="text" id="my_input" name="myinput" />
-	
+
 Include the Javascript file (minified version recommended for production use) within your page and instantiate a new instance of InlineLabels:
 
 	var labels = new InlineLabels();

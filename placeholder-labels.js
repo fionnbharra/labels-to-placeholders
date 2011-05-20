@@ -1,8 +1,8 @@
 /*
  * Created by:  Matt Hinchliffe <http://www.maketea.co.uk>
  * Date:        02/02/2011
- * Modified:    08/04/2011
- * Version:     1.0.0 beta 2
+ * Modified:    20/05/2011
+ * Version:     1.0.0
  */
 
 function InlineLabels(Class, Target)
@@ -11,7 +11,6 @@ function InlineLabels(Class, Target)
 	Target = Target || document;
 
 	// Test if placeholder attribute is natively supported
-	// - Test taken from work by Mike Taylr <http://miketaylr.com/code/input-type-attr.html> and Modernizr <http://www.modernizr.com>
 	this.test = function()
 	{
 		if (window.Modernizr && window.Modernizr.input)
@@ -20,8 +19,7 @@ function InlineLabels(Class, Target)
 		}
 		else
 		{
-			var fake = document.createElement('input');
-			return !! ('placeholder' in fake);
+			return ('placeholder' in document.createElement('input'));
 		}
 	};
 
