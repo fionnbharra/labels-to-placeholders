@@ -1,15 +1,6 @@
 # Placeholder Labels
 
-This small Javascript method turns labels with a specified class into placeholder attributes for their related input with Javascript fallback for browsers that do not support HTML5 recommended attributes with no dependencies.
-
-Tested in the following browsers:
-
-* Firefox 3.6 and 4\*
-* Safari 5\*
-* Chrome 8\* and 9 \*
-* Internet Explorer 7, 8 and 9\*
-
-\* placeholder attribute supported
+This small Javascript method turns labels with a specified class into placeholder attributes for their related input with Javascript fallback for browsers that do not support HTML5 recommended attributes. Two versions are included:- A plain Javascript version with no dependencies and a jQuery plug-in.
 
 ## How does it work
 
@@ -26,9 +17,15 @@ Text inputs and textareas require an associated label -- even if the label is hi
 
 Include the Javascript file (minified version recommended for production use) within your page and instantiate a new instance of InlineLabels:
 
+For plain Javascript method:
+
 	var labels = new InlineLabels();
 
-The `InlineLabels` method can take two optional arguments:
+For jQuery plug-in:
+
+	$('label.inline').InlineLabels();
+
+The plain Javascript `InlineLabels` method can take two optional arguments to select certain label/input pairs:
 
 1. The class name you have applied to your labels (`string`)
 2. An object reference or an ID string to only search for labels within a parent node (`string`|`object`)
@@ -42,6 +39,8 @@ or
 	var my_form = document.getElementByID('my_form'),
 	    labels = new InlineLabels(null, my_form);
 
+*The jQuery plugin does not require any arguments as the factory selector performs this function*
+
 Styling placeholders requires some rather horrible browser-specific 'shadow DOM' selectors which means some code repetition for now. The script also applies the class name 'placeholder' to each target element in browsers where native placeholder behaviour is not supported:
 
 	::-webkit-input-placeholder {
@@ -54,7 +53,17 @@ Styling placeholders requires some rather horrible browser-specific 'shadow DOM'
 		color:#f00;
 	}
 
-#### Credits
+#### Browser support
+Tested in the following browsers:
+
+* Firefox 3.6 and 4\*
+* Safari 5\*
+* Chrome 8\* and 9 \*
+* Internet Explorer 7, 8 and 9\*
+
+\* placeholder attribute supported
+
+##### Credits
 
 * [Modernizr for attribute test](http://www.modernizr.com)
 * [Mike Taylr for the HTML 5 input and attribute compatibility tables](http://miketaylr.com/code/input-type-attr.html)

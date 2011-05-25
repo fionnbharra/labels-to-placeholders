@@ -95,7 +95,6 @@ function InlineLabels(Class, Target)
 		});
 	};
 
-	// Create publicly accessible object
 	this.Labels = this.get(Class, 'label', Target) || [];
 	this.Native = this.test();
 
