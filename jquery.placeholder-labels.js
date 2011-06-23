@@ -1,8 +1,8 @@
 /*
  * Created by:  Matt Hinchliffe <http://www.maketea.co.uk>
  * Date:        25/02/2011
- * Modified:    25/05/2011
- * Version:     1.0.0
+ * Modified:    23/06/2011
+ * Version:     1.0.1
  */
 
 (function($)
@@ -17,7 +17,7 @@
 				.attr('placeholder', $(this).text());
 
 			// If HTML5 attributes are not available then contrive support
-			if ((window.Modernizr.input && !Modernizr.input.placeholder) || !('placeholder' in document.createElement('input')))
+			if ((window.Modernizr && !Modernizr.input.placeholder) || !('placeholder' in document.createElement('input')))
 			{
 				$_input
 					.val($_input.attr('placeholder'))
