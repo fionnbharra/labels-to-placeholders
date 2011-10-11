@@ -1,121 +1,194 @@
-/*
- * Created by:  Matt Hinchliffe <http://www.maketea.co.uk>
- * Date:        02/02/2011
- * Modified:    20/05/2011
- * Version:     1.0.0
+/**
+ * @author Matt Hinchliffe <http://www.maketea.co.uk>
+ * @created 02/02/2011
+ * @modified 11/10/2011
+ * @see <https://github.com/i-like-robots/Placeholder-Labels>
  */
 
-function InlineLabels(Class, Target)
+/**
+ * Inline labels
+ *
+ * @description This small Javascript method turns labels with a specified class into placeholder attributes for their related form input with Javascript
+ * fallback for browsers that do not support HTML5 recommended attributes.
+ * @version 1.1.0
+ * @param className {string}
+ * @param $target {object}
+ */
+function InlineLabels(className, $target)
 {
-	Class = Class === undefined ? 'inline' : Class;
-	Target = Target || document;
+	className = !className ? 'inline' : className;
+	$target = $target || document;
 
-	// Test if placeholder attribute is natively supported
+	/**
+	 * Test
+	 *
+	 * @description Checks if native placeholder attribute behaviour is supported
+	 */
 	this.test = function()
 	{
-		if (window.Modernizr && window.Modernizr.input)
-		{
-			return Modernizr.input.placeholder;
-		}
-		else
-		{
-			return ('placeholder' in document.createElement('input'));
-		}
+		var $temp = document.createElement('input'),
+		    support = ('placeholder' in $temp);
+
+		$temp = null; // Clear memory
+
+		return support;
 	};
 
-	// Get labels. Optionally filter by specified class or within container.
-	// - Avoids using getElementsByClassName and searches for single node type with class within a container.
-	this.get = function(Class, Tag, Container)
+	/**
+	 * Get
+	 *
+	 * @description Get an element by tag and class name. Uses querySelectorAll() or backup.
+	 * @param className {string}
+	 * @param tagName {string}
+	 * @param $scope {object}
+	 */
+	this.get = function(className, tagName, $scope)
 	{
-		var Scope = typeof Container == 'string' ? document.getElementById(Container) : Container;
-
-		if (!Scope || typeof Scope != 'object')
+		if (!$scope || typeof $scope !== 'object')
 		{
 			return;
 		}
 
-		var Elements = Scope.getElementsByTagName(Tag), Results = [];
+		var $elements = [];
 
-		if (Class)
+		if (document.querySelectorAll)
 		{
-			for (var i = 0; i < Elements.length; i++)
-			{
-				var String = Elements[i].getAttribute('class') || Elements[i].getAttribute('className');
-
-				if (String && String.indexOf(Class) > -1)
-				{
-					Results.push(Elements[i]);
-				}
-			}
-
-			return Results;
-		}
-
-		return Elements;
-	};
-
-	// Apply event listener helper
-	this.bind = function(target, event, handler)
-	{
-		if (target.addEventListener)
-		{
-			target.addEventListener(event, handler, false);
+			$elements = $scope.querySelectorAll(tagName + '.' + className);
 		}
 		else
 		{
-			target.attachEvent('on' + event, handler);
+			var $tags = $scope.getElementsByTagName(tagName),
+			    i = $tags.length;
+
+			while (i--)
+			{
+				var classAttr = $tags[i].getAttribute('class') || $tags[i].getAttribute('className');
+
+				if (classAttr && classAttr.indexOf(className) > -1)
+				{
+					$elements.push($tags[i]);
+				}
+			}
+		}
+
+		return $elements;
+	};
+
+	/**
+	 * Bind
+	 *
+	 * @description Binds a method to an event
+	 * @param $target {object}
+	 * @param event {string}
+	 * @param handler {function}
+	 */
+	this.bind = function($target, event, handler)
+	{
+		if ($target.addEventListener)
+		{
+			$target.addEventListener(event, handler, false);
+		}
+		else
+		{
+			$target.attachEvent('on' + event, handler);
 		}
 	};
 
-	// Event method are abstracted to avoid instantiation within a loop
-	this.contrive = function(target)
+	/**
+	 * Contrive
+	 *
+	 * @description Mimics placeholder attribute behaviour
+	 * @param $target {object}
+	 */
+	this.contrive = function($target)
 	{
-		target.value = Placeholder;
-		target.className = Input.className + ' placeholder';
-
-		this.bind(target, 'focus', function()
+		// Set initial value
+		if ($target.value === '')
 		{
-			if (target.value == target.getAttribute('placeholder'))
+			$target.value = $target.getAttribute('placeholder');
+			$target.className = $target.className + ' placeholder';
+		}
+
+		// Focus
+		this.bind($target, 'focus', function()
+		{
+			if ($target.value === $target.getAttribute('placeholder'))
 			{
-				target.value = '';
-				target.className = target.className.replace(' placeholder', '');
+				$target.value = '';
+				$target.className = $target.className.replace(/\bplaceholder\b/, '');
 			}
 		});
 
-		this.bind(target, 'blur', function()
+		// Blur
+		this.bind($target, 'blur', function()
 		{
-			if (!target.value || target.value === '')
+			if (!$target.value || $target.value === '')
 			{
-				target.value = target.getAttribute('placeholder');
-				if (target.className.indexOf('placeholder' == -1))
+				$target.value = $target.getAttribute('placeholder');
+
+				if ($target.className.indexOf('placeholder' > -1))
 				{
-					target.className = target.className + ' placeholder';
+					$target.className = $target.className + ' placeholder';
 				}
 			}
 		});
+
+		// Clear value on form submit
+		if ($target.form)
+		{
+			this.bind($target.form, 'submit', function()
+			{
+				if ($target.value === $target.getAttribute('placeholder'))
+				{
+					$target.value = '';
+				}
+			});
+		}
 	};
 
-	this.Labels = this.get(Class, 'label', Target) || [];
-	this.Native = this.test();
+	this.$labels = this.get(className, 'label', $target) || [];
+	this.nativeSupport = this.test();
+
+	var i = this.$labels.length;
 
 	// Loop through nodes
-	for (var i = 0; i < this.Labels.length; i++)
+	while (i--)
 	{
 		// Get label text and for attribute value
-		var Placeholder = this.Labels[i].firstChild.nodeValue,
-		    Input = document.getElementById( this.Labels[i].getAttribute('for') || this.Labels[i].getAttribute('htmlFor') );
+		var placeholderText = this.$labels[i].firstChild.nodeValue, // Because you can't guarantee 'innerText' value
+		    $input = document.getElementById( this.$labels[i].getAttribute('for') || this.$labels[i].getAttribute('htmlFor') );
 
-		// Test for attribute is bound to a text input or text area
-		if (Input && (Input.nodeName.toLowerCase() == 'textarea' || Input.type == 'text'))
+		if ($input)
 		{
-			// Hide label and set text to target placeholder attribute
-			this.Labels[i].style.display = 'none';
-			Input.setAttribute('placeholder', Placeholder);
+			// Hide label
+			this.$labels[i].style.display = 'none';
 
-			// Provide Javascript fallback for browsers that do not support the placeholder attribute
-			if (!this.Native)
+			if ($input.nodeName.toLowerCase() === 'select') // Select boxes
 			{
-				this.contrive(Input);
+				var $option = $input.options[0],
+					optionSelected = $input.selectedIndex ? true : false;
+
+				// First option must have a blank value
+				if (!$option.value)
+				{
+					$option.text = placeholderText;
+					$option.value = '';
+
+					if (!optionSelected)
+					{
+						$option.selected = true;
+					}
+				}
+			}
+			else if ($input.nodeName.toLowerCase() === 'textarea' || $input.type.toLowerCase() === 'text') // Textareas and text inputs
+			{
+				$input.setAttribute('placeholder', placeholderText);
+
+				// Provide Javascript fallback
+				if (!this.nativeSupport)
+				{
+					this.contrive($input);
+				}
 			}
 		}
 	}

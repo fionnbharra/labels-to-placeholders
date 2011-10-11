@@ -7,21 +7,23 @@
 
 	<title>Placeholder Labels</title>
 
+	<!-- Document styles -->
 	<style>
 	body {
 		font-size:0.75em;
-		font-family:Arial, sans-serif;
+		font-family:Arial, Helvetica, sans-serif;
 		color:#333;
 		background:#fff;
 	}
 
-	h1, h2, h3, h4, h5 {
+	/* Headers, paragraphs, lists */
+	h1, h2, h3 {
 		line-height:1;
 	}
 		h1 {
 			font-size:2.33em;
 		}
-		h2, h3, h4, h5 {
+		h2, h3 {
 			font-size:1.5em;
 			margin-bottom:0.5em;
 		}
@@ -31,23 +33,26 @@
 		line-height:1.5;
 	}
 
-	pre, code {
-		font-size:1.071em;
+	/* Monospaced */
+	code {
+		padding:4px;
+		color:#fff;
 		font-family:Consolas, "Lucida Console", Monaco, monospace;
-		color:#80f;
-		cursor:help;
+		background:#293134;
+		-webkit-border-radius:3px;
+		   -moz-border-radius:3px;
+		        border-radius:3px;
 	}
-		pre {
-			overflow:hidden;
-			background:#eee;
-		}
 
+	/* Layout */
 	#content {
 		width:640px;
 		margin:20px auto;
 	}
+	</style>
 
-	/* Example styles */
+	<!-- Example styles -->
+	<style>
 	label {
 		display:block;
 		line-height:1.5;
@@ -61,7 +66,8 @@
 		font:inherit;
 		color:#0a5;
 	}
-		::-webkit-input-placeholder {
+		input::-webkit-input-placeholder, textarea::-webkit-input-placeholder,
+		input::-ms-input-placeholder, textarea::-ms-input-placeholder {
 			color:#f00;
 		}
 		input:-moz-placeholder, textarea:-moz-placeholder {
@@ -108,17 +114,8 @@
 
 		<p>* placeholder attribute supported</p>
 
-		<h2>How does it work</h2>
 
-		<p>The method will first search for labels with the class name 'inline', check for native placeholder behaviour and improvise the
-		old fashioned way if that is unavailable.</p>
-
-		<p>In the case that there is no native support the function will also add a 'placeholder' class to the input so that you are able
-		to distinguish between a placeholder or real value being present.</p>
-
-		<p>The method does not add any listeners to the form.</p>
-
-		<h3>Installation</h3>
+		<h2>Installation</h2>
 
 		<p>Simply include the Javascript file (minified version recommended for production use) within your page and instantiate a new
 		instance of InlineLabels with two arguments:</p>
@@ -128,50 +125,52 @@
 		<p>The two arguments are pretty self-explanatory:</p>
 
 		<ol>
-			<li>The class name string you have applied to your labels</li>
-			<li>An object or an ID string <em>(optional)</em></li>
+			<li>The class name string you have applied to your labels <em>(Optional, the default is 'inline')</em></li>
+			<li>A target object <em>(optional, the default is the document)</em></li>
 		</ol>
 
-		<h4>Example</h4>
+
+		<h3>Example</h3>
 
 		<form action="" method="post">
-		<fieldset>
+			<fieldset>
 
-			<div class="row">
-				<label for="normal-input">This is a normal label, sat above the input</label>
-				<input id="normal-input" name="normal-input" type="text" />
-			</div>
+				<div class="row">
+					<label for="normal-input">This is a normal label, sat above the input</label>
+					<input type="text" id="normal-input" name="normal-input" />
+				</div>
 
-			<div class="row">
-				<label class="inline" for="inline-input">This is a placeholder label</label>
-				<input id="inline-input" name="inline-input" type="text" />
-			</div>
+				<div class="row">
+					<label class="inline" for="inline-input">This is a placeholder label</label>
+					<input type="text" id="inline-input" name="inline-input" />
+				</div>
 
-			<div class="row">
-				<label class="inline" for="inline-textarea">This is a placeholder within a text area</label>
-				<textarea id="inline-textarea" name="inline-textarea"></textarea>
-			</div>
+				<div class="row">
+					<label class="inline" for="inline-select">Select box placeholder</label>
+					<select id="inline-select" name="inline-select">
+						<option></option>
+						<option>Option 1</option>
+						<option>Option 2</option>
+						<option>Option 3</option>
+					</select>
+				</div>
 
-			<div class="row buttons">
-				<button name="submit" type="submit">Submit</button>
-			</div>
+				<div class="row">
+					<label class="inline" for="inline-textarea">This is a placeholder within a text area</label>
+					<textarea id="inline-textarea" name="inline-textarea"></textarea>
+				</div>
 
-		</fieldset>
+				<div class="row buttons">
+					<button name="submit" type="submit">Submit</button>
+				</div>
+
+			</fieldset>
 		</form>
-
-		<h5>Credits</h5>
-
-		<ul>
-			<li><a href="http://www.modernizr.com">Modernizr for attribute test</a></li>
-			<li><a href="http://miketaylr.com/code/input-type-attr.html">Mike Taylr for the HTML 5 input and attribute compatibility tables</a></li>
-		</ul>
 
 	</div>
 
 	<script src="placeholder-labels.js"></script>
-	<script>
-	var labels = new InlineLabels();
-	</script>
+	<script>var labels = new InlineLabels();</script>
 
 </body>
 </html>
