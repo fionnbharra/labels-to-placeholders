@@ -5,172 +5,153 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=Edge;chrome=1" />
 	<meta charset="utf-8" />
 
+	<!-- Meta -->
 	<title>Placeholder Labels</title>
+	<meta name="description" content="" />
 
-	<!-- Document styles -->
+	<!-- Stylesheets -->
+	<link rel="stylesheet" href="http://i-like-robots.github.com/WebsiteBase/assets/css/base.css" />
+	<link rel="stylesheet" href="http://i-like-robots.github.com/WebsiteBase/example/css/example.css" />
+	<!--[if lte IE 7]><link rel="stylesheet" href="http://i-like-robots.github.com/WebsiteBase/assets/css/ie7.css"/><![endif]-->
+	<!--[if lte IE 6]><link rel="stylesheet" href="http://i-like-robots.github.com/WebsiteBase/assets/css/ie6.css"/><![endif]-->
+
+	<!-- Placeholder styles -->
 	<style>
-	body {
-		font-size:0.75em;
-		font-family:Arial, Helvetica, sans-serif;
-		color:#333;
-		background:#fff;
-	}
-
-	/* Headers, paragraphs, lists */
-	h1, h2, h3 {
-		line-height:1;
-	}
-		h1 {
-			font-size:2.33em;
-		}
-		h2, h3 {
-			font-size:1.5em;
-			margin-bottom:0.5em;
-		}
-
-	p, ul, ol, pre {
-		margin:0 0 1em;
-		line-height:1.5;
-	}
-
-	/* Monospaced */
-	code {
-		padding:4px;
-		color:#fff;
-		font-family:Consolas, "Lucida Console", Monaco, monospace;
-		background:#293134;
-		-webkit-border-radius:3px;
-		   -moz-border-radius:3px;
-		        border-radius:3px;
-	}
-
-	/* Layout */
-	#content {
-		width:640px;
-		margin:20px auto;
-	}
-	</style>
-
-	<!-- Example styles -->
-	<style>
-	label {
-		display:block;
-		line-height:1.5;
-		white-space:nowrap;
-	}
-
-	input, textarea {
-		width:240px;
-		height:1.2em;
-		padding:5px;
-		font:inherit;
+	input, textarea, select {
+		width:300px;
 		color:#0a5;
 	}
-		input::-webkit-input-placeholder, textarea::-webkit-input-placeholder,
-		input::-ms-input-placeholder, textarea::-ms-input-placeholder {
-			color:#f00;
-		}
-		input:-moz-placeholder, textarea:-moz-placeholder {
-			color:#f00;
-		}
-		input.placeholder, textarea.placeholder {
-			color:#f00;
-		}
-		input:focus, textarea:focus {
-			color:#000;
-		}
-		textarea {
-			height:6em;
-			resize:none;
-		}
-
-	button {
-		padding:5px 6px;
+	input::-webkit-input-placeholder, textarea::-webkit-input-placeholder,
+	input::-ms-input-placeholder, textarea::-ms-input-placeholder {
+		color:#f00;
 	}
-
-	.row {
-		margin-bottom:0.5em;
+	input:-moz-placeholder, textarea:-moz-placeholder {
+		color:#f00;
+	}
+	input.placeholder, textarea.placeholder {
+		color:#f00;
+	}
+	input:focus, textarea:focus {
+		color:#000;
+	}
+	textarea {
+		height:6em;
+		resize:none;
 	}
 	</style>
 
 </head>
 <body>
 
-	<div id="content">
+	<div id="container">
 
 		<h1>Placeholder Labels</h1>
 
-		<p>This small Javascript method turns labels with a specified class into placeholder attributes for their related input with
-		Javascript fallback for browsers that do not support HTML5 recommended attributes.</p>
+		<p>
+			This small Javascript function transforms labels into placeholder attributes for their related form input or select box 
+			with Javascript fallback for browsers that do not support HTML5 spec forms.
+		</p>
 
 		<p>Tested in the following browsers:</p>
 
 		<ul>
-			<li>Firefox 3.6 and 4*</li>
+			<li>Firefox 3.6 and 4&ndash;7</li>
 			<li>Safari 5*</li>
-			<li>Chrome 8* and 9*</li>
-			<li>Internet Explorer 7, 8 and 9*</li>
+			<li>Chrome 8&ndash;15*</li>
+			<li>Internet Explorer 7, 8 and 9</li>
 		</ul>
 
-		<p>* placeholder attribute supported</p>
+		<p>
+			<small>* placeholder attribute supported</small>
+		</p>
 
 
 		<h2>Installation</h2>
 
-		<p>Simply include the Javascript file (minified version recommended for production use) within your page and instantiate a new
-		instance of InlineLabels with two arguments:</p>
+		<p>
+			Simply include the Javascript file (minified version recommended for production use) within your page and call the 
+			<code>InlineLabels()</code> function:
+		</p>
 
-		<p><code>var labels = new InlineLabel('inline', document);</code></p>
+		<dl>
+			<dt class="h6">Example</dt>
+			<dd>
 
-		<p>The two arguments are pretty self-explanatory:</p>
+				<p>
+					<code>var labels = InlineLabels();</code>
+				</p>
 
-		<ol>
-			<li>The class name string you have applied to your labels <em>(Optional, the default is 'inline')</em></li>
-			<li>A target object <em>(optional, the default is the document)</em></li>
-		</ol>
+			</dd>
+
+			<dt class="h6">Arguments</dt>
+			<dd>
+
+				<p>
+					The function has two (optional) arguments:
+				</p>
+
+				<ol>
+					<li>The class name string you have applied to your labels <em>(the default is 'inline')</em></li>
+					<li>A target element <em>(the default is the document)</em></li>
+				</ol>
+
+				<p>
+					<code>var labels = InlineLabels('inline', document);</code>
+				</p>
+
+			</dd>
+
+			<dt class="h6">Returns</dt>
+			<dd>
+
+				<p>
+					A node list or array of label elements.
+				</p>
+
+			</dd>
+		</dl>
+
+		<p>
+			<em>Please note:</em> Class names are not applied to <code>select</code> elements as I feel this would an odd 
+			behaviour to apply.
+		</p>
 
 
 		<h3>Example</h3>
 
 		<form action="" method="post">
-			<fieldset>
 
-				<div class="row">
-					<label for="normal-input">This is a normal label, sat above the input</label>
-					<input type="text" id="normal-input" name="normal-input" />
-				</div>
+			<div class="row">
+				<label for="normal-input">This is a normal label, positioned above the input</label>
+				<input type="text" id="normal-input" name="normal-input" />
+			</div>
 
-				<div class="row">
-					<label class="inline" for="inline-input">This is a placeholder label</label>
-					<input type="text" id="inline-input" name="inline-input" />
-				</div>
+			<div class="row">
+				<label class="inline" for="inline-input">This label has transformed into a placeholder</label>
+				<input type="text" id="inline-input" name="inline-input" />
+			</div>
 
-				<div class="row">
-					<label class="inline" for="inline-select">Select box placeholder</label>
-					<select id="inline-select" name="inline-select">
-						<option></option>
-						<option>Option 1</option>
-						<option>Option 2</option>
-						<option>Option 3</option>
-					</select>
-				</div>
+			<div class="row">
+				<label class="inline" for="inline-select">Select boxes are supported too</label>
+				<select id="inline-select" name="inline-select">
+					<option></option>
+					<option>Option 1</option>
+					<option>Option 2</option>
+					<option>Option 3</option>
+				</select>
+			</div>
 
-				<div class="row">
-					<label class="inline" for="inline-textarea">This is a placeholder within a text area</label>
-					<textarea id="inline-textarea" name="inline-textarea"></textarea>
-				</div>
+			<div class="row">
+				<label class="inline" for="inline-textarea">This label has transformed into a placeholder</label>
+				<textarea id="inline-textarea" name="inline-textarea"></textarea>
+			</div>
 
-				<div class="row buttons">
-					<button name="submit" type="submit">Submit</button>
-				</div>
-
-			</fieldset>
 		</form>
 
 	</div>
 
 	<script src="placeholder-labels.js"></script>
-	<script>var labels = new InlineLabels();</script>
+	<script>var labels = InlineLabels();</script>
 
 </body>
 </html>

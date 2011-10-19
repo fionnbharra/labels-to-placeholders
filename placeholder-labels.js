@@ -1,96 +1,44 @@
 /**
- * @author Matt Hinchliffe <http://www.maketea.co.uk>
- * @created 02/02/2011
- * @modified 11/10/2011
- * @see <https://github.com/i-like-robots/Placeholder-Labels>
- */
-
-/**
  * Inline labels
  *
- * @description This small Javascript method turns labels with a specified class into placeholder attributes for their related form input with Javascript
- * fallback for browsers that do not support HTML5 recommended attributes.
- * @version 1.1.0
- * @param className {string}
- * @param $target {object}
+ * @author Matt Hinchliffe <http://www.maketea.co.uk>
+ * @description This small Javascript function transforms labels into 
+ * placeholder attributes for their related form input or select box with 
+ * Javascript fallback for browsers that do not support HTML5 spec forms.
+ * @see <https://github.com/i-like-robots/Placeholder-Labels>
+ * @version 1.2.0
+ * @param className
+ * @param targetElement
  */
-function InlineLabels(className, $target)
+function InlineLabels(className, targetElement)
 {
-	className = !className ? 'inline' : className;
-	$target = $target || document;
+	"use strict";
 
-	/**
-	 * Test
-	 *
-	 * @description Checks if native placeholder attribute behaviour is supported
-	 */
-	this.test = function()
+	className = className || 'inline';
+	targetElement = targetElement || document;
+
+	if (!targetElement || typeof targetElement !== 'object')
 	{
-		var $temp = document.createElement('input'),
-		    support = ('placeholder' in $temp);
-
-		$temp = null; // Clear memory
-
-		return support;
-	};
-
-	/**
-	 * Get
-	 *
-	 * @description Get an element by tag and class name. Uses querySelectorAll() or backup.
-	 * @param className {string}
-	 * @param tagName {string}
-	 * @param $scope {object}
-	 */
-	this.get = function(className, tagName, $scope)
-	{
-		if (!$scope || typeof $scope !== 'object')
-		{
-			return;
-		}
-
-		var $elements = [];
-
-		if (document.querySelectorAll)
-		{
-			$elements = $scope.querySelectorAll(tagName + '.' + className);
-		}
-		else
-		{
-			var $tags = $scope.getElementsByTagName(tagName),
-			    i = $tags.length;
-
-			while (i--)
-			{
-				var classAttr = $tags[i].getAttribute('class') || $tags[i].getAttribute('className');
-
-				if (classAttr && classAttr.indexOf(className) > -1)
-				{
-					$elements.push($tags[i]);
-				}
-			}
-		}
-
-		return $elements;
-	};
+		return;
+	}
 
 	/**
 	 * Bind
 	 *
 	 * @description Binds a method to an event
-	 * @param $target {object}
-	 * @param event {string}
-	 * @param handler {function}
+	 * @param bindTo Element object
+	 * @param event
+	 * @param handler
 	 */
-	this.bind = function($target, event, handler)
+	var bind = function(bindTo, event, handler)
 	{
-		if ($target.addEventListener)
+		if (bindTo.addEventListener)
 		{
-			$target.addEventListener(event, handler, false);
+			bindTo.addEventListener(event, handler, false);
 		}
 		else
 		{
-			$target.attachEvent('on' + event, handler);
+			bindTo.attachEvent('on' + event, handler);
 		}
 	};
 
@@ -98,99 +46,139 @@ function InlineLabels(className, $target)
 	 * Contrive
 	 *
 	 * @description Mimics placeholder attribute behaviour
-	 * @param $target {object}
+	 * @param textInput
 	 */
-	this.contrive = function($target)
+	var contrive = function(textInput)
 	{
 		// Set initial value
-		if ($target.value === '')
+		bind(window, 'load', function()
 		{
-			$target.value = $target.getAttribute('placeholder');
-			$target.className = $target.className + ' placeholder';
+			var value = textInput.value.replace(/^\s\s*/, '').replace(/\s\s*$/, '');
+
+			if (!value || value === textInput.getAttribute('placeholder'))
+			{
+				textInput.value = textInput.getAttribute('placeholder');
+				textInput.className = textInput.className + ' placeholder';
+			}
+		});
+
+		// Clear placeholder on parent form submit
+		if (textInput.form)
+		{
+			bind(textInput.form, 'submit', function()
+			{
+				if (textInput.value === textInput.getAttribute('placeholder'))
+				{
+					textInput.value = '';
+				}
+			});
 		}
 
 		// Focus
-		this.bind($target, 'focus', function()
+		bind(textInput, 'focus', function()
 		{
-			if ($target.value === $target.getAttribute('placeholder'))
+			if (this.value === this.getAttribute('placeholder'))
 			{
-				$target.value = '';
-				$target.className = $target.className.replace(/\bplaceholder\b/, '');
+				this.value = '';
+				this.className = this.className.replace(/\bplaceholder\b/, '');
 			}
 		});
 
 		// Blur
-		this.bind($target, 'blur', function()
+		bind(textInput, 'blur', function()
 		{
-			if (!$target.value || $target.value === '')
+			if (this.value.replace(/^\s\s*/, '').replace(/\s\s*$/, '') === '')
 			{
-				$target.value = $target.getAttribute('placeholder');
+				this.value = this.getAttribute('placeholder');
 
-				if ($target.className.indexOf('placeholder' > -1))
+				if (!this.className.match(/\bplaceholder\b/))
 				{
-					$target.className = $target.className + ' placeholder';
+					this.className = this.className + ' placeholder';
 				}
 			}
 		});
-
-		// Clear value on form submit
-		if ($target.form)
-		{
-			this.bind($target.form, 'submit', function()
-			{
-				if ($target.value === $target.getAttribute('placeholder'))
-				{
-					$target.value = '';
-				}
-			});
-		}
 	};
 
-	this.$labels = this.get(className, 'label', $target) || [];
-	this.nativeSupport = this.test();
+	var labels = (function()
+	{
+		var elementList = [];
 
-	var i = this.$labels.length;
+		if (document.querySelectorAll) // Try native selector API
+		{
+			elementList = targetElement.querySelectorAll('label.' + className);
+		}
+		else // Filter tags the old way
+		{
+			var labelElements = targetElement.getElementsByTagName('label'),
+			    i = labelElements.length;
 
-	// Loop through nodes
+			while (i--)
+			{
+				var classAttr = labelElements[i].getAttribute('class') || labelElements[i].getAttribute('className');
+
+				if (classAttr && classAttr.indexOf(className) > -1)
+				{
+					elementList.push(labelElements[i]);
+				}
+			}
+		}
+
+		return elementList;
+	})();
+
+	var nativeSupport = (function()
+	{
+		var temp = document.createElement('input'),
+		    support = ('placeholder' in temp);
+
+		temp = null; // Clear memory
+
+		return support;
+	})();
+
+	var i = labels.length;
+
+	// Loop through nodes because we can't just use the nicer [].map() array method
 	while (i--)
 	{
 		// Get label text and for attribute value
-		var placeholderText = this.$labels[i].firstChild.nodeValue, // Because you can't guarantee 'innerText' value
-		    $input = document.getElementById( this.$labels[i].getAttribute('for') || this.$labels[i].getAttribute('htmlFor') );
+		var placeholderText = labels[i].firstChild.nodeValue, // Because you can't guarantee 'innerText' value
+		    labelTarget = document.getElementById( labels[i].getAttribute('for') || labels[i].getAttribute('htmlFor') );
 
-		if ($input)
+		if (labelTarget)
 		{
 			// Hide label
-			this.$labels[i].style.display = 'none';
+			labels[i].style.display = 'none';
 
-			if ($input.nodeName.toLowerCase() === 'select') // Select boxes
+			if (labelTarget.nodeName.toLowerCase() === 'select')
 			{
-				var $option = $input.options[0],
-					optionSelected = $input.selectedIndex ? true : false;
+				var option = labelTarget.options[0],
+					optionSelected = labelTarget.selectedIndex ? true : false;
 
 				// First option must have a blank value
-				if (!$option.value)
+				if (!option.value)
 				{
-					$option.text = placeholderText;
-					$option.value = '';
+					option.text = placeholderText;
+					option.value = '';
 
 					if (!optionSelected)
 					{
-						$option.selected = true;
+						option.selected = true;
 					}
 				}
 			}
-			else if ($input.nodeName.toLowerCase() === 'textarea' || $input.type.toLowerCase() === 'text') // Textareas and text inputs
+			else if (labelTarget.nodeName.toLowerCase() === 'textarea' || labelTarget.type.toLowerCase() === 'text')
 			{
-				$input.setAttribute('placeholder', placeholderText);
+				labelTarget.setAttribute('placeholder', placeholderText);
 
 				// Provide Javascript fallback
-				if (!this.nativeSupport)
+				if (!nativeSupport)
 				{
-					this.contrive($input);
+					contrive(labelTarget);
 				}
 			}
 		}
 	}
 
+	return labels;
 }
