@@ -4,15 +4,16 @@ This small Javascript function transforms labels into placeholder attributes for
 
 Tested in the following browsers:
 
-* Firefox 3.6 and 4–7
-* Safari 5\*
-* Chrome 8–15\*
-* Internet Explorer 7, 8 and 9
+* Firefox 2, 3.6 and 4-7
+* Chrome 8-15*
+* Safari 5*
+* Internet Explorer 6-9
+* Opera 11.5*
 
 \* placeholder attribute supported
 
 ## Installation
 
-Simply include the Javascript file (minified version recommended for production use) within your page and call the `InlineLabels()` function.
+Simply include the Javascript file (minified version recommended for production use) within your page and call the `PlaceholderLabels()` function.
 
 Full instructions and example are provided within the included `example.html` file.

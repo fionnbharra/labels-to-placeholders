@@ -1,25 +1,25 @@
 /**
- * Inline labels
+ * Placeholder labels
  *
  * @author Matt Hinchliffe <http://www.maketea.co.uk>
  * @description This small Javascript function transforms labels into 
  * placeholder attributes for their related form input or select box with 
  * Javascript fallback for browsers that do not support HTML5 spec forms.
  * @see <https://github.com/i-like-robots/Placeholder-Labels>
- * @version 1.2.0
+ * @version 1.2.1
  * @param className
  * @param targetElement
  */
-function InlineLabels(className, targetElement)
+function PlaceholderLabels(className, targetElement)
 {
 	"use strict";
 
 	className = className || 'inline';
 	targetElement = targetElement || document;
 
-	if (!targetElement || typeof targetElement !== 'object')
+	if (!targetElement || targetElement.nodeName === undefined)
 	{
-		return;
+		throw new TypeError();
 	}
 
 	/**
@@ -77,23 +77,23 @@ function InlineLabels(className, targetElement)
 		// Focus
 		bind(textInput, 'focus', function()
 		{
-			if (this.value === this.getAttribute('placeholder'))
+			if (textInput.value === textInput.getAttribute('placeholder'))
 			{
-				this.value = '';
-				this.className = this.className.replace(/\bplaceholder\b/, '');
+				textInput.value = '';
+				textInput.className = textInput.className.replace(/\bplaceholder\b/, '');
 			}
 		});
 
 		// Blur
 		bind(textInput, 'blur', function()
 		{
-			if (this.value.replace(/^\s\s*/, '').replace(/\s\s*$/, '') === '')
+			if (textInput.value.replace(/^\s\s*/, '').replace(/\s\s*$/, '') === '')
 			{
-				this.value = this.getAttribute('placeholder');
+				textInput.value = textInput.getAttribute('placeholder');
 
-				if (!this.className.match(/\bplaceholder\b/))
+				if (!textInput.className.match(/\bplaceholder\b/))
 				{
-					this.className = this.className + ' placeholder';
+					textInput.className = textInput.className + ' placeholder';
 				}
 			}
 		});
@@ -138,7 +138,7 @@ function InlineLabels(className, targetElement)
 
 	var i = labels.length;
 
-	// Loop through nodes because we can't just use the nicer [].map() array method
+	// Loop through nodes because we can't use array methods without polyfills
 	while (i--)
 	{
 		// Get label text and for attribute value

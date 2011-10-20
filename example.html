@@ -19,7 +19,6 @@
 	<style>
 	input, textarea, select {
 		width:300px;
-		color:#0a5;
 	}
 	input::-webkit-input-placeholder, textarea::-webkit-input-placeholder,
 	input::-ms-input-placeholder, textarea::-ms-input-placeholder {
@@ -30,9 +29,6 @@
 	}
 	input.placeholder, textarea.placeholder {
 		color:#f00;
-	}
-	input:focus, textarea:focus {
-		color:#000;
 	}
 	textarea {
 		height:6em;
@@ -48,17 +44,18 @@
 		<h1>Placeholder Labels</h1>
 
 		<p>
-			This small Javascript function transforms labels into placeholder attributes for their related form input or select box 
-			with Javascript fallback for browsers that do not support HTML5 spec forms.
+			This small Javascript function transforms labels into placeholder attributes for their related form input or select box with 
+			Javascript fallback for browsers that do not support HTML5 spec forms.
 		</p>
 
 		<p>Tested in the following browsers:</p>
 
 		<ul>
-			<li>Firefox 3.6 and 4&ndash;7</li>
-			<li>Safari 5*</li>
+			<li>Firefox 2, 3.6 and 4&ndash;7</li>
 			<li>Chrome 8&ndash;15*</li>
-			<li>Internet Explorer 7, 8 and 9</li>
+			<li>Safari 5*</li>
+			<li>Internet Explorer 6&ndash;9</li>
+			<li>Opera 11.5*</li>
 		</ul>
 
 		<p>
@@ -70,7 +67,7 @@
 
 		<p>
 			Simply include the Javascript file (minified version recommended for production use) within your page and call the 
-			<code>InlineLabels()</code> function:
+			<code>PlaceholderLabels()</code> function:
 		</p>
 
 		<dl>
@@ -78,7 +75,7 @@
 			<dd>
 
 				<p>
-					<code>var labels = InlineLabels();</code>
+					<code>PlaceholderLabels();</code>
 				</p>
 
 			</dd>
@@ -96,7 +93,7 @@
 				</ol>
 
 				<p>
-					<code>var labels = InlineLabels('inline', document);</code>
+					<code>PlaceholderLabels('inline', document);</code>
 				</p>
 
 			</dd>
@@ -108,16 +105,29 @@
 					A node list or array of label elements.
 				</p>
 
+				<aside>
+					<p>
+						Handy for integrating into your chosen framework, E.G. <a href="http://www.jquery.com">jQuery</a>: 
+						<code>$(PlaceholderLabels());</code>
+					</p>
+				</aside>
+
+			</dd>
+
+			<dt class="h6">Styling</dt>
+			<dd>
+
+				<p>
+					Recent versions of Firefox, Chrome, Safari and upcoming releases of Internet Explorer support styling the placeholder 
+					via a proprietary pseudo-element selector. Opera does not currently support styling of the placeholder. In browsers 
+					requring the fallback are given a <code>placeholder</code> class.
+				</p>
+
 			</dd>
 		</dl>
 
-		<p>
-			<em>Please note:</em> Class names are not applied to <code>select</code> elements as I feel this would an odd 
-			behaviour to apply.
-		</p>
 
-
-		<h3>Example</h3>
+		<h3 class="h2">Example</h3>
 
 		<form action="" method="post">
 
@@ -151,7 +161,7 @@
 	</div>
 
 	<script src="placeholder-labels.js"></script>
-	<script>var labels = InlineLabels();</script>
+	<script>PlaceholderLabels();</script>
 
 </body>
 </html>
