@@ -6,7 +6,7 @@
  * placeholder attributes for their related form input or select box with 
  * Javascript fallback for browsers that do not support HTML5 spec forms.
  * @see <https://github.com/i-like-robots/Placeholder-Labels>
- * @version 1.2.1
+ * @version 1.2.2
  * @param className
  * @param targetElement
  */
@@ -17,7 +17,7 @@ function PlaceholderLabels(className, targetElement)
 	className = className || 'inline';
 	targetElement = targetElement || document;
 
-	if (!targetElement || targetElement.nodeName === undefined)
+	if ( ! targetElement || targetElement.nodeName === undefined )
 	{
 		throw new TypeError();
 	}
@@ -50,12 +50,12 @@ function PlaceholderLabels(className, targetElement)
 	 */
 	var contrive = function(textInput)
 	{
-		// Set initial value
+		// Set initial value (IE doesn't re-populate input until window.onload event)
 		bind(window, 'load', function()
 		{
 			var value = textInput.value.replace(/^\s\s*/, '').replace(/\s\s*$/, '');
 
-			if (!value || value === textInput.getAttribute('placeholder'))
+			if ( ! value || value === textInput.getAttribute('placeholder') )
 			{
 				textInput.value = textInput.getAttribute('placeholder');
 				textInput.className = textInput.className + ' placeholder';
@@ -67,7 +67,7 @@ function PlaceholderLabels(className, targetElement)
 		{
 			bind(textInput.form, 'submit', function()
 			{
-				if (textInput.value === textInput.getAttribute('placeholder'))
+				if ( textInput.value === textInput.getAttribute('placeholder') )
 				{
 					textInput.value = '';
 				}
@@ -77,7 +77,7 @@ function PlaceholderLabels(className, targetElement)
 		// Focus
 		bind(textInput, 'focus', function()
 		{
-			if (textInput.value === textInput.getAttribute('placeholder'))
+			if ( textInput.value === textInput.getAttribute('placeholder') )
 			{
 				textInput.value = '';
 				textInput.className = textInput.className.replace(/\bplaceholder\b/, '');
@@ -87,11 +87,11 @@ function PlaceholderLabels(className, targetElement)
 		// Blur
 		bind(textInput, 'blur', function()
 		{
-			if (textInput.value.replace(/^\s\s*/, '').replace(/\s\s*$/, '') === '')
+			if ( textInput.value.replace(/^\s\s*/, '').replace(/\s\s*$/, '') === '' )
 			{
 				textInput.value = textInput.getAttribute('placeholder');
 
-				if (!textInput.className.match(/\bplaceholder\b/))
+				if ( ! textInput.className.match(/\bplaceholder\b/) )
 				{
 					textInput.className = textInput.className + ' placeholder';
 				}
@@ -116,9 +116,9 @@ function PlaceholderLabels(className, targetElement)
 			{
 				var classAttr = labelElements[i].getAttribute('class') || labelElements[i].getAttribute('className');
 
-				if (classAttr && classAttr.indexOf(className) > -1)
+				if ( classAttr && classAttr.indexOf(className) > -1 )
 				{
-					elementList.push(labelElements[i]);
+					elementList.push( labelElements[i] );
 				}
 			}
 		}
@@ -126,17 +126,8 @@ function PlaceholderLabels(className, targetElement)
 		return elementList;
 	})();
 
-	var nativeSupport = (function()
-	{
-		var temp = document.createElement('input'),
-		    support = ('placeholder' in temp);
-
-		temp = null; // Clear memory
-
-		return support;
-	})();
-
-	var i = labels.length;
+	var nativeSupport = !! ( 'placeholder' in document.createElement('input') ),
+	    i = labels.length;
 
 	// Loop through nodes because we can't use array methods without polyfills
 	while (i--)
@@ -150,13 +141,13 @@ function PlaceholderLabels(className, targetElement)
 			// Hide label
 			labels[i].style.display = 'none';
 
-			if (labelTarget.nodeName.toLowerCase() === 'select')
+			if ( labelTarget.nodeName.toLowerCase() === 'select' )
 			{
 				var option = labelTarget.options[0],
 					optionSelected = labelTarget.selectedIndex ? true : false;
 
 				// First option must have a blank value
-				if (!option.value)
+				if ( ! option.value)
 				{
 					option.text = placeholderText;
 					option.value = '';
@@ -167,12 +158,12 @@ function PlaceholderLabels(className, targetElement)
 					}
 				}
 			}
-			else if (labelTarget.nodeName.toLowerCase() === 'textarea' || labelTarget.type.toLowerCase() === 'text')
+			else if ( labelTarget.nodeName.toLowerCase() === 'textarea' || labelTarget.type.toLowerCase() === 'text' )
 			{
 				labelTarget.setAttribute('placeholder', placeholderText);
 
 				// Provide Javascript fallback
-				if (!nativeSupport)
+				if ( ! nativeSupport)
 				{
 					contrive(labelTarget);
 				}
