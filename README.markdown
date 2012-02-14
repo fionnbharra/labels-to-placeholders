@@ -16,4 +16,4 @@ Tested in the following browsers:
 
 Simply include the Javascript file (minified version recommended for production use) within your page and call the `PlaceholderLabels()` function.
 
-Full instructions and example are provided within the included `example.html` file.
+Full instructions and example are provided within the included `index.html` file.

@@ -5,8 +5,8 @@
  * @description This small Javascript function transforms labels into 
  * placeholder attributes for their related form input or select box with 
  * Javascript fallback for browsers that do not support HTML5 spec forms.
- * @see <https://github.com/i-like-robots/Placeholder-Labels>
- * @version 1.2.2
+ * @see <https://github.com/i-like-robots/labels-to-placeholders>
+ * @version 1.2.3
  * @param className
  * @param targetElement
  */
@@ -126,7 +126,7 @@ function PlaceholderLabels(className, targetElement)
 		return elementList;
 	})();
 
-	var nativeSupport = !! ( 'placeholder' in document.createElement('input') ),
+	var nativeSupport = 'placeholder' in document.createElement('input'),
 	    i = labels.length;
 
 	// Loop through nodes because we can't use array methods without polyfills
@@ -144,7 +144,7 @@ function PlaceholderLabels(className, targetElement)
 			if ( labelTarget.nodeName.toLowerCase() === 'select' )
 			{
 				var option = labelTarget.options[0],
-					optionSelected = labelTarget.selectedIndex ? true : false;
+				    optionSelected = labelTarget.selectedIndex ? true : false;
 
 				// First option must have a blank value
 				if ( ! option.value)
