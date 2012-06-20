@@ -1,19 +1,38 @@
 # Placeholder Labels
 
-This small Javascript function transforms labels into placeholder attributes for their related form input or select box with Javascript fallback for browsers that do not support HTML5 spec forms.
-
+Transforms form labels into placeholder attributes for their related text input or select box with a JavaScript fallback for browsers that do not support HTML5 spec forms. This is not a polyfill, but a script designed to enhance your forms.
 Tested in the following browsers:
 
-* Firefox 2, 3.6 and 4-7
-* Chrome 8-15*
+## Supported browsers
+
+* Firefox 3.6 and 4+*
+* Google Chrome*
 * Safari 5*
-* Internet Explorer 6-9
-* Opera 11.5*
+* Internet Explorer 6–9
+* Opera 12*
 
-\* placeholder attribute supported
+\* placeholder attribute natively supported
 
-## Installation
+## Issues
 
-Simply include the Javascript file (minified version recommended for production use) within your page and call the `PlaceholderLabels()` function.
+Have a bug? Please report an issues on the [Github project page][1]
 
-Full instructions and example are provided within the included `example.html` file.
+https://github.com/i-like-robots/labels-to-placeholders/issues
+
+## Versioning
+
+The current version is `1.3.0`. Releases will be numbered in following format:
+
+`<major>.<minor>.<patch>`
+
+## License
+
+This work is licensed under a [Creative Commons Attribution-ShareAlike 3.0 Unported License][2].
+
+## Authors
+
+This jQuery Modal was written by [Matt Hinchliffe][3]
+
+ [1]: http://github.com/labels-to-placeholders/jQuery-Modal
+ [3]: http://creativecommons.org/licenses/by-sa/3.0/
+ [4]: http://www.maketea.co.uk
