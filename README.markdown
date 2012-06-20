@@ -33,6 +33,6 @@ This work is licensed under a [Creative Commons Attribution-ShareAlike 3.0 Unpor
 
 This jQuery Modal was written by [Matt Hinchliffe][3]
 
- [1]: http://github.com/labels-to-placeholders/jQuery-Modal
- [3]: http://creativecommons.org/licenses/by-sa/3.0/
- [4]: http://www.maketea.co.uk
+ [1]: http://github.com/i-like-robots/labels-to-placeholders
+ [2]: http://creativecommons.org/licenses/by-sa/3.0/
+ [3]: http://www.maketea.co.uk
