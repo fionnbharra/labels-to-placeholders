@@ -1,0 +1,17 @@
+input::-webkit-input-placeholder,
+textarea::-webkit-input-placeholder,
+input::-ms-input-placeholder,
+textarea::-ms-input-placeholder {
+	color:#999;
+}
+input:-moz-placeholder,
+textarea:-moz-placeholder {
+	color:#999;
+}
+input.placeholder,
+textarea.placeholder {
+	color:#999;
+}
+option[value=""] {
+	color:#999;
+}

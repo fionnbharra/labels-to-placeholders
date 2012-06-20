@@ -1,19 +1,16 @@
 /**
  * Placeholder labels
- *
  * @author Matt Hinchliffe <http://www.maketea.co.uk>
- * @description This small Javascript function transforms labels into 
- * placeholder attributes for their related form input or select box with 
- * Javascript fallback for browsers that do not support HTML5 spec forms.
- * @see <https://github.com/i-like-robots/labels-to-placeholders>
- * @version 1.2.3
+ * @description This small JavaScript function transforms labels into
+ * placeholder attributes for their related form input or select box with
+ * JavaScript fallback for browsers that do not support HTML5 spec forms.
+ * @see <https://github.com/i-like-robots/Placeholder-Labels>
+ * @version 1.3.0
  * @param className
  * @param targetElement
  */
 function PlaceholderLabels(className, targetElement)
 {
-	"use strict";
-
 	className = className || 'inline';
 	targetElement = targetElement || document;
 
@@ -24,13 +21,12 @@ function PlaceholderLabels(className, targetElement)
 
 	/**
 	 * Bind
-	 *
 	 * @description Binds a method to an event
 	 * @param bindTo Element object
-	 * @param event
-	 * @param handler
+	 * @param event Event name
+	 * @param handler Object to receive event
 	 */
-	var bind = function(bindTo, event, handler)
+	function bind(bindTo, event, handler)
 	{
 		if (bindTo.addEventListener)
 		{
@@ -40,66 +36,93 @@ function PlaceholderLabels(className, targetElement)
 		{
 			bindTo.attachEvent('on' + event, handler);
 		}
-	};
+	}
+
+	/**
+	 * Trim
+	 * @description Trim whitespace at star and end of a string
+	 * @param str
+	 */
+	function trim(str)
+	{
+		return str.replace(/^\s\s*/, '').replace(/\s\s*$/, '');
+	}
 
 	/**
 	 * Contrive
-	 *
 	 * @description Mimics placeholder attribute behaviour
-	 * @param textInput
+	 * @param targetInput
 	 */
-	var contrive = function(textInput)
+	function contrive(targetInput)
 	{
 		// Set initial value (IE doesn't re-populate input until window.onload event)
 		bind(window, 'load', function()
 		{
-			var value = textInput.value.replace(/^\s\s*/, '').replace(/\s\s*$/, '');
+			var value = trim(targetInput.value);
 
-			if ( ! value || value === textInput.getAttribute('placeholder') )
+			if ( ! value || value === targetInput.getAttribute('placeholder') )
 			{
-				textInput.value = textInput.getAttribute('placeholder');
-				textInput.className = textInput.className + ' placeholder';
+				targetInput.value = targetInput.getAttribute('placeholder');
+				targetInput.className = targetInput.className + ' placeholder';
 			}
 		});
 
 		// Clear placeholder on parent form submit
-		if (textInput.form)
+		if (targetInput.form)
 		{
-			bind(textInput.form, 'submit', function()
+			bind(targetInput.form, 'submit', function()
 			{
-				if ( textInput.value === textInput.getAttribute('placeholder') )
+				if ( targetInput.value === targetInput.getAttribute('placeholder') )
 				{
-					textInput.value = '';
+					targetInput.value = '';
 				}
 			});
 		}
 
-		// Focus
-		bind(textInput, 'focus', function()
+		// Ensure caret is at the start of text field on focus
+		bind(targetInput, 'focus', function()
 		{
-			if ( textInput.value === textInput.getAttribute('placeholder') )
+			if ( targetInput.value === targetInput.getAttribute('placeholder') )
 			{
-				textInput.value = '';
-				textInput.className = textInput.className.replace(/\bplaceholder\b/, '');
+				if ( targetInput.setSelectionRange )
+				{
+					targetInput.setSelectionRange(0, 0);
+				}
+				else if ( targetInput.createTextRange ) // Genius. <http://msdn.microsoft.com/en-us/library/ie/ms536401(v=vs.85).aspx>
+				{
+					var textRange = targetInput.createTextRange();
+					textRange.collapse(true);
+					textRange.select();
+				}
+			}
+		});
+
+		// Don't clear the field until a key is pressed
+		bind(targetInput, 'keydown', function()
+		{
+			if ( targetInput.value === targetInput.getAttribute('placeholder') )
+			{
+				targetInput.value = '';
+				targetInput.className = targetInput.className.replace(/\bplaceholder\b/, '');
 			}
 		});
 
 		// Blur
-		bind(textInput, 'blur', function()
+		bind(targetInput, 'blur', function()
 		{
-			if ( textInput.value.replace(/^\s\s*/, '').replace(/\s\s*$/, '') === '' )
+			if ( trim(targetInput.value) === '' )
 			{
-				textInput.value = textInput.getAttribute('placeholder');
+				targetInput.value = targetInput.getAttribute('placeholder');
 
-				if ( ! textInput.className.match(/\bplaceholder\b/) )
+				if ( ! targetInput.className.match(/\bplaceholder\b/) )
 				{
-					textInput.className = textInput.className + ' placeholder';
+					targetInput.className = targetInput.className + ' placeholder';
 				}
 			}
 		});
-	};
+	}
 
-	var labels = (function()
+	var labels = function()
 	{
 		var elementList = [];
 
@@ -124,7 +147,7 @@ function PlaceholderLabels(className, targetElement)
 		}
 
 		return elementList;
-	})();
+	}();
 
 	var nativeSupport = 'placeholder' in document.createElement('input'),
 	    i = labels.length;
@@ -141,10 +164,11 @@ function PlaceholderLabels(className, targetElement)
 			// Hide label
 			labels[i].style.display = 'none';
 
+			// Insert label text into a blank option
 			if ( labelTarget.nodeName.toLowerCase() === 'select' )
 			{
 				var option = labelTarget.options[0],
-				    optionSelected = labelTarget.selectedIndex ? true : false;
+					optionSelected = labelTarget.selectedIndex ? true : false;
 
 				// First option must have a blank value
 				if ( ! option.value)
@@ -152,7 +176,7 @@ function PlaceholderLabels(className, targetElement)
 					option.text = placeholderText;
 					option.value = '';
 
-					if (!optionSelected)
+					if ( ! optionSelected)
 					{
 						option.selected = true;
 					}
@@ -162,7 +186,7 @@ function PlaceholderLabels(className, targetElement)
 			{
 				labelTarget.setAttribute('placeholder', placeholderText);
 
-				// Provide Javascript fallback
+				// Provide JavaScript fallback
 				if ( ! nativeSupport)
 				{
 					contrive(labelTarget);

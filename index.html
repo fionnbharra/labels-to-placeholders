@@ -1,165 +1,96 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 
-	<meta http-equiv="X-UA-Compatible" content="IE=Edge;chrome=1" />
 	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=Edge;chrome=1" />
 
-	<!-- Meta -->
-	<title>Placeholder Labels</title>
-	<meta name="description" content="" />
+	<title>Form labels to HTML5 placeholder attributes</title>
 
-	<!-- Stylesheets -->
-	<link rel="stylesheet" href="http://i-like-robots.github.com/WebsiteBase/assets/css/base.css" />
-	<!--[if lte IE 7]><link rel="stylesheet" href="http://i-like-robots.github.com/WebsiteBase/assets/css/ie7.css"/><![endif]-->
-	<!--[if lte IE 6]><link rel="stylesheet" href="http://i-like-robots.github.com/WebsiteBase/assets/css/ie6.css"/><![endif]-->
 
-	<!-- Placeholder styles -->
-	<style>
-	input, textarea, select {
-		width:300px;
-	}
-	input::-webkit-input-placeholder, textarea::-webkit-input-placeholder,
-	input::-ms-input-placeholder, textarea::-ms-input-placeholder {
-		color:#f00;
-	}
-	input:-moz-placeholder, textarea:-moz-placeholder {
-		color:#f00;
-	}
-	input.placeholder, textarea.placeholder {
-		color:#f00;
-	}
-	textarea {
-		height:6em;
-		resize:none;
-	}
-	</style>
+	<link rel="stylesheet" href="css/example.css" />
+	<link rel="stylesheet" href="css/placeholder-labels.css" />
+
+	<!--
+	Placeholder labels by Matt Hinchliffe <http://www.maketea.co.uk>
+	Find out more at GitHub <http://github.com/i-like-robots/labels-to-placeholders>
+	-->
 
 </head>
 <body>
 
-	<div id="container" class="website-width">
+	<div id="container">
 
-		<h1>Placeholder Labels</h1>
+		<section class="introduction">
+			<h1>Placeholder Labels</h1>
+			<p>
+				Transforms form labels into placeholder attributes for their related text input or select box with a
+				JavaScript fallback for browsers that do not support HTML5 spec forms. This is <strong>not a
+				polyfill</strong>, but a script designed to enhance your forms.
+			</p>
+			<p>
+				<a href="https://github.com/i-like-robots/labels-to-placeholders">Download, fork and submit bugs on GitHub</a>
+			</p>
+		</section>
 
-		<p>
-			This small Javascript function transforms labels into placeholder attributes for their related form input or select box with 
-			Javascript fallback for browsers that do not support HTML5 spec forms.
-		</p>
+		<hr />
 
-		<p>Tested in the following browsers:</p>
+		<section class="examples">
+			<h2>Examples</h2>
+			<form action="" method="post">
+				<div class="row">
+					<label class="inline" for="inline-input">This label has been used to create a placeholder</label>
+					<input type="text" id="inline-input" name="inline-input" />
+				</div>
+				<div class="row">
+					<label class="inline" for="inline-select">Select boxes are supported too</label>
+					<select id="inline-select" name="inline-select">
+						<option></option>
+						<option>Option 1</option>
+						<option>Option 2</option>
+						<option>Option 3</option>
+					</select>
+				</div>
+				<div class="row">
+					<label class="inline" for="inline-textarea">This label has been used to create a placeholder</label>
+					<textarea id="inline-textarea" name="inline-textarea"></textarea>
+				</div>
+			</form>
 
-		<ul>
-			<li>Firefox 2, 3.6 and 4&ndash;7</li>
-			<li>Chrome 8&ndash;15*</li>
-			<li>Safari 5*</li>
-			<li>Internet Explorer 6&ndash;9</li>
-			<li>Opera 11.5*</li>
-		</ul>
+			<pre><code><span class="comment">&lt;script src="placeholder-labels.js"&gt;&lt;/script&gt;
+&lt;script&gt;PlaceholderLabels([className][, targetElement]);&lt;/script&gt;</code></pre>
+		</section>
 
-		<p>
-			<small>* placeholder attribute supported</small>
-		</p>
+		<hr />
 
+		<section class="arguments">
+			<h3>Arguments</h3>
+			<dl>
+				<dt>className</dt>
+				<dd>
+					Class name applied to the target labels. Default: <code>inline</code>.
+				</dd>
+				<dt>targetElement</dt>
+				<dd>
+					Only act upon labels within this target element. Default: <code>document</code>.
+				</dd>
+			</dl>
+		</section>
 
-		<h2>Installation</h2>
+		<hr />
 
-		<p>
-			Simply include the Javascript file (minified version recommended for production use) within your page and call the 
-			<code>PlaceholderLabels()</code> function:
-		</p>
-
-		<dl>
-			<dt class="h6">Example</dt>
-			<dd>
-
-				<p>
-					<code>PlaceholderLabels();</code>
-				</p>
-
-			</dd>
-
-			<dt class="h6">Arguments</dt>
-			<dd>
-
-				<p>
-					The function has two (optional) arguments:
-				</p>
-
-				<ol>
-					<li>The class name string you have applied to your labels <em>(the default is 'inline')</em></li>
-					<li>A target element <em>(the default is the document)</em></li>
-				</ol>
-
-				<p>
-					<code>PlaceholderLabels('inline', document);</code>
-				</p>
-
-			</dd>
-
-			<dt class="h6">Returns</dt>
-			<dd>
-
-				<p>
-					A node list or array of label elements.
-				</p>
-
-				<aside>
-					<p>
-						Handy for integrating into your chosen framework, E.G. <a href="http://www.jquery.com">jQuery</a>: 
-						<code>$(PlaceholderLabels());</code>
-					</p>
-				</aside>
-
-			</dd>
-
-			<dt class="h6">Styling</dt>
-			<dd>
-
-				<p>
-					Recent versions of Firefox, Chrome, Safari and upcoming releases of Internet Explorer support styling the placeholder 
-					via a proprietary pseudo-element selector. Opera does not currently support styling of the placeholder. In browsers 
-					requring the fallback are given a <code>placeholder</code> class.
-				</p>
-
-			</dd>
-		</dl>
-
-
-		<h3 class="h2">Example</h3>
-
-		<form action="" method="post">
-
-			<div class="row">
-				<label for="normal-input">This is a normal label, positioned above the input</label>
-				<input type="text" id="normal-input" name="normal-input" />
-			</div>
-
-			<div class="row">
-				<label class="inline" for="inline-input">This label has transformed into a placeholder</label>
-				<input type="text" id="inline-input" name="inline-input" />
-			</div>
-
-			<div class="row">
-				<label class="inline" for="inline-select">Select boxes are supported too</label>
-				<select id="inline-select" name="inline-select">
-					<option></option>
-					<option>Option 1</option>
-					<option>Option 2</option>
-					<option>Option 3</option>
-				</select>
-			</div>
-
-			<div class="row">
-				<label class="inline" for="inline-textarea">This label has transformed into a placeholder</label>
-				<textarea id="inline-textarea" name="inline-textarea"></textarea>
-			</div>
-
-		</form>
+		<section class="styling">
+			<h4>Styling</h4>
+			<p>
+				Recent versions of Firefox, Chrome, Safari and upcoming releases of Internet Explorer support styling
+				the placeholder via a proprietary pseudo-element selector. Opera does not currently support styling of
+				the placeholder. Browsers requring the fallback are given a <code>placeholder</code> class.
+			</p>
+		</section>
 
 	</div>
 
-	<script src="placeholder-labels.js"></script>
+	<script src="js/placeholder-labels.js"></script>
 	<script>PlaceholderLabels();</script>
 
 </body>
