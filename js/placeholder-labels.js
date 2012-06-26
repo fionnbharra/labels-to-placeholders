@@ -5,7 +5,7 @@
  * placeholder attributes for their related form input or select box with
  * JavaScript fallback for browsers that do not support HTML5 spec forms.
  * @see <https://github.com/i-like-robots/Placeholder-Labels>
- * @version 1.3.0
+ * @version 1.3.1
  * @param className
  * @param targetElement
  */
@@ -182,7 +182,7 @@ function PlaceholderLabels(className, targetElement)
 					}
 				}
 			}
-			else if ( labelTarget.nodeName.toLowerCase() === 'textarea' || labelTarget.type.toLowerCase() === 'text' )
+			else if ( labelTarget.nodeName.toLowerCase() === 'textarea' || /text|email|tel|url|number/i.test(labelTarget.type) )
 			{
 				labelTarget.setAttribute('placeholder', placeholderText);
 
