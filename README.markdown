@@ -21,7 +21,7 @@ https://github.com/i-like-robots/labels-to-placeholders/issues
 
 ## Versioning
 
-The current version is `1.3.1`. Releases will be numbered in following format:
+The current version is `1.3.2`. Releases will be numbered in following format:
 
 `<major>.<minor>.<patch>`
 

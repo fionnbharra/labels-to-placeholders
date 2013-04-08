@@ -1,11 +1,11 @@
-/**
+/*!
  * Placeholder labels
  * @author Matt Hinchliffe <http://www.maketea.co.uk>
  * @description This small JavaScript function transforms labels into
  * placeholder attributes for their related form input or select box with
  * JavaScript fallback for browsers that do not support HTML5 spec forms.
  * @see <https://github.com/i-like-robots/Placeholder-Labels>
- * @version 1.3.1
+ * @version 1.3.2
  * @param className
  * @param targetElement
  */
@@ -56,7 +56,7 @@ function PlaceholderLabels(className, targetElement)
 	function contrive(targetInput)
 	{
 		// Set initial value (IE doesn't re-populate input until window.onload event)
-		bind(window, 'load', function()
+		var populate = function()
 		{
 			var value = trim(targetInput.value);
 
@@ -65,7 +65,16 @@ function PlaceholderLabels(className, targetElement)
 				targetInput.value = targetInput.getAttribute('placeholder');
 				targetInput.className = targetInput.className + ' placeholder';
 			}
-		});
+		};
+
+		if (document.readyState === 'complete')
+		{
+			populate();
+		}
+		else
+		{
+			bind(window, 'load', populate);
+		}
 
 		// Clear placeholder on parent form submit
 		if (targetInput.form)
@@ -182,7 +191,7 @@ function PlaceholderLabels(className, targetElement)
 					}
 				}
 			}
-			else if ( labelTarget.nodeName.toLowerCase() === 'textarea' || /text|email|tel|url|search|time/.test( labelTarget.type.toLowerCase() ) )
+			else if ( labelTarget.nodeName.toLowerCase() === 'textarea' || /text|email|tel|url|number/i.test(labelTarget.type) )
 			{
 				labelTarget.setAttribute('placeholder', placeholderText);
 
