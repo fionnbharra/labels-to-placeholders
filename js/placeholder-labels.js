@@ -5,7 +5,7 @@
  * placeholder attributes for their related form input or select box with
  * JavaScript fallback for browsers that do not support HTML5 spec forms.
  * @see <https://github.com/i-like-robots/Placeholder-Labels>
- * @version 1.3.2
+ * @version 1.3.3
  * @param className
  * @param targetElement
  */
@@ -141,8 +141,8 @@ function PlaceholderLabels(className, targetElement)
 		}
 		else // Filter tags the old way
 		{
-			var labelElements = targetElement.getElementsByTagName('label'),
-			    i = labelElements.length;
+			var labelElements = targetElement.getElementsByTagName('label');
+			var i = labelElements.length;
 
 			while (i--)
 			{
@@ -158,26 +158,29 @@ function PlaceholderLabels(className, targetElement)
 		return elementList;
 	}();
 
-	var nativeSupport = 'placeholder' in document.createElement('input'),
-	    i = labels.length;
+	var nativeSupport = 'placeholder' in document.createElement('input');
+	var i = labels.length;
 
 	// Loop through nodes because we can't use array methods without polyfills
 	while (i--)
 	{
 		// Get label text and for attribute value
-		var placeholderText = labels[i].firstChild.nodeValue, // Because you can't guarantee 'innerText' value
-		    labelTarget = document.getElementById( labels[i].getAttribute('for') || labels[i].getAttribute('htmlFor') );
+		var placeholderText = labels[i].firstChild.nodeValue; // Because you can't guarantee 'innerText' value
+		var labelTarget = document.getElementById( labels[i].getAttribute('for') || labels[i].getAttribute('htmlFor') );
 
 		if (labelTarget)
 		{
-			// Hide label
-			labels[i].style.display = 'none';
+			// Visually hide label (placeholders do not replace labels)
+			labels[i].style.position = 'absolute';
+			labels[i].style.left = '-9999px';
+			labels[i].style.width = '1px';
+			labels[i].style.height = '1px';
 
 			// Insert label text into a blank option
 			if ( labelTarget.nodeName.toLowerCase() === 'select' )
 			{
-				var option = labelTarget.options[0],
-					optionSelected = labelTarget.selectedIndex ? true : false;
+				var option = labelTarget.options[0];
+				var optionSelected = labelTarget.selectedIndex ? true : false;
 
 				// First option must have a blank value
 				if ( ! option.value)
